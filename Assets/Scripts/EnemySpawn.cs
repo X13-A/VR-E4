@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
+
+    private int nEnemy;
+    [SerializeField] int maxEnemy;
     [SerializeField] GameObject enemy;
     [SerializeField] GameObject player;
     [SerializeField] float spawnRadius = 10f;
@@ -27,7 +30,7 @@ public class EnemySpawn : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        while (true)
+        while (nEnemy<maxEnemy)
         {
             if (availableAngles.Count > 0)
             {
@@ -60,6 +63,8 @@ public class EnemySpawn : MonoBehaviour
         Vector3 direction = player.transform.position - newEnemy.transform.position;
         direction.y = 0;  // Garder la direction dans le plan XZ
         newEnemy.transform.rotation = Quaternion.LookRotation(direction);
+
+        nEnemy += 1;
     }
 
     Vector3 GetPointOnCircle(float radius, Vector3 center, float angle)
@@ -82,7 +87,6 @@ public class EnemySpawn : MonoBehaviour
         if (!availableAngles.Contains(angle))
         {
             availableAngles.Add(angle);
-            Debug.Log(angle);
         }
     }
 }
