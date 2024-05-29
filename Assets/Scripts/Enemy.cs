@@ -101,7 +101,7 @@ public class Enemy : MonoBehaviour
         StartCoroutine(WaitHit());
     }
 
-    void Touch()
+    public void Touch()
     {
         m_Life -= 1;
         canTouch = false;
