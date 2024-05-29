@@ -39,11 +39,15 @@ public class Enemy : MonoBehaviour
             if(!m_Animator.GetBool("isAttacking"))
                 Attack();
         }
+
+    }
+
+    void Update()
+    {
         if (Input.GetKeyDown(KeyCode.H) && canTouch)
         {
             Touch();
         }
-
     }
 
     void Attack()
