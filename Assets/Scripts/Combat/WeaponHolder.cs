@@ -1,42 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
+public enum MainHand { Left, Right }
 
 public class WeaponHolder : MonoBehaviour
 {
-    [SerializeField] private Transform weapon;
+    [SerializeField] private MainHand mainHand = MainHand.Right;
+    [SerializeField] private Transform weaponRig;
+    [SerializeField] private Transform weaponModel;
+    [SerializeField] private Transform closeGrip;
+    [SerializeField] private Transform farGrip;
 
-    [SerializeField] private Transform player;
     [SerializeField] private Transform leftHand; 
-    [SerializeField] private Transform rightHand; 
+    [SerializeField] private Transform rightHand;
 
-    private float GetHandDist(Transform hand)
-    {
-        return Vector3.Distance(hand.position, player.position);
-    }
+    private Transform mainHandTransform => mainHand == MainHand.Left ? leftHand : rightHand;
+    private Transform secondHandTransform => mainHand == MainHand.Left ? rightHand : leftHand;
 
     void Update()
     {
-        float leftHandDist = GetHandDist(leftHand);
-        float rightHandDist = GetHandDist(rightHand);
+        Vector3 baseForward = Vector3.Normalize(secondHandTransform.position - mainHandTransform.position);
+        weaponRig.position = mainHandTransform.position;
+        weaponRig.forward = baseForward;
 
-        Transform closestHand;
-        Transform furthestHand;
+        Vector3 delta = Vector3.Normalize(farGrip.position - closeGrip.position);
+        Vector3 adjustedForward = Vector3.Normalize(Vector3.Reflect(-delta, baseForward));
+        weaponModel.forward = adjustedForward;
+    }
 
-        if (leftHandDist > rightHandDist)
-        {
-            closestHand = rightHand;
-            furthestHand = leftHand;
-        }
-        else
-        {
-            closestHand = rightHand;
-            furthestHand = leftHand;
-        }
+    private void OnDrawGizmos()
+    {
+        return;
+        Vector3 baseForward = Vector3.Normalize(secondHandTransform.position - mainHandTransform.position);
+        Vector3 delta = Vector3.Normalize(farGrip.position - closeGrip.position);
+        Vector3 adjustedForward = Vector3.Normalize(Vector3.Reflect(-delta, baseForward));
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(closeGrip.position, delta);
 
-        Vector3 direction = Vector3.Normalize(leftHand.position - rightHand.position);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(mainHandTransform.position, baseForward * 10);
 
-        weapon.position = closestHand.position;
-        weapon.forward = direction;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(mainHandTransform.position, adjustedForward * 10);
     }
 }
