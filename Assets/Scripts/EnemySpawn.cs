@@ -5,12 +5,13 @@ using UnityEngine;
 public class EnemySpawn : MonoBehaviour
 {
 
-    private int nEnemy;
-    [SerializeField] int maxEnemy;
+    [SerializeField] int nEnemy;
+    [SerializeField] int nFastEnemy;
     [SerializeField] GameObject enemy;
     [SerializeField] GameObject player;
     [SerializeField] float spawnRadius = 10f;
     [SerializeField] float spawnInterval = 5f;  // Intervalle entre les spawns en secondes
+    [SerializeField] float deltaspawnInterval = 1f;
     [SerializeField] float angleStep = 2f;  // Intervalle d'angle en degrés
     private List<float> availableAngles = new List<float>();
 
@@ -30,13 +31,15 @@ public class EnemySpawn : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        while (nEnemy<maxEnemy)
+        while (nEnemy>0)
         {
             if (availableAngles.Count > 0)
             {
                 Spawn();
             }
-            yield return new WaitForSeconds(spawnInterval);
+            float randomFloat = Random.Range(-deltaspawnInterval, deltaspawnInterval);
+            Debug.Log(randomFloat);
+            yield return new WaitForSeconds(spawnInterval+deltaspawnInterval);
         }
     }
 
@@ -46,6 +49,8 @@ public class EnemySpawn : MonoBehaviour
 
         // Tirer un angle aléatoire de la liste
         int randomIndex = Random.Range(0, availableAngles.Count);
+        // Tirer un type d'ennemi aléatoire dans la liste
+        int randomIndex2 = Random.Range(0, nEnemy);
         float angle = availableAngles[randomIndex];
         availableAngles.RemoveAt(randomIndex);
 
@@ -56,7 +61,15 @@ public class EnemySpawn : MonoBehaviour
         Enemy enemyScript = newEnemy.GetComponent<Enemy>();
         if (enemyScript != null)
         {
-            enemyScript.Initialize(this, angle);
+            if (randomIndex2 < nFastEnemy)
+            {
+                enemyScript.Initialize(this, angle, 6);
+                nFastEnemy -= 1;
+            }
+            else
+            {
+                enemyScript.Initialize(this, angle);
+            }
         }
 
         // Orienter l'ennemi vers le joueur uniquement sur l'axe Y
@@ -64,7 +77,7 @@ public class EnemySpawn : MonoBehaviour
         direction.y = 0;  // Garder la direction dans le plan XZ
         newEnemy.transform.rotation = Quaternion.LookRotation(direction);
 
-        nEnemy += 1;
+        nEnemy -= 1;
     }
 
     Vector3 GetPointOnCircle(float radius, Vector3 center, float angle)
