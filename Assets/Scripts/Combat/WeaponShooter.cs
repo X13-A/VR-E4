@@ -19,7 +19,7 @@ public class WeaponShooter : MonoBehaviour
             Enemy enemy = hit.collider.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.Touch();
+                enemy.Touch(1);
             }
         }
     }

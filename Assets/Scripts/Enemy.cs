@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.H) && canTouch)
         {
-            Touch();
+            Touch(1);
         }
     }
 
@@ -141,10 +141,10 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(direction);
     }
 
-    public void Touch()
+    public void Touch(int damage)
     {
-        m_Life -= 1;
-        if(m_Life == 0)
+        m_Life -= damage;
+        if(m_Life <= 0)
         {
             Die();
         }
