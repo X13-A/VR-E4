@@ -425,7 +425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbce087d6582cc74baa8d907baa5f534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxEnemy: 3
+  maxEnemy: 1
   enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
   player: {fileID: 307463095}
   spawnRadius: 10

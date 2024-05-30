@@ -10,7 +10,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] float m_AttackDistance = 2f;
     [SerializeField] float m_Speed = 2f;
     private Animator m_Animator;
-    
+    private CapsuleCollider m_StandCollider;
+    private BoxCollider m_DeathCollider;
+    private Coroutine hitCoroutine;
+
+
     void SetSpeed(float speed)
     {
         m_Speed = speed;
@@ -20,6 +24,8 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         m_Animator = GetComponent<Animator>();
+        m_DeathCollider = GetComponent<BoxCollider>();
+        m_StandCollider = GetComponent<CapsuleCollider>();
     }
 
     public void Initialize(EnemySpawn spawn, float angle)
@@ -66,9 +72,11 @@ public class Enemy : MonoBehaviour
     private IEnumerator WaitHit()
     {
         yield return new WaitForSeconds(2f);
-        canTouch = true;
-        m_Animator.SetBool("isHit", false);
+        m_Animator.SetBool("isHit1", false);
+        m_Animator.SetBool("isHit2", false);
         Debug.Log("Can Touch !");
+        hitCoroutine = null;
+        FixRotation();
     }
 
     private IEnumerator WaitDie()
@@ -86,25 +94,56 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
+        canTouch = false;
         if (m_Spawn != null)
         {
             m_Spawn.ReaddAngle(m_Angle);
         }
 
-        m_Animator.SetBool("isDying", true);
+        m_Animator.SetTrigger("isDying");
+        m_StandCollider.enabled = false;
+        m_DeathCollider.enabled = true;
         StartCoroutine(WaitDie());
     }
 
     void Hit()
     {
-        m_Animator.SetBool("isHit", true);
-        StartCoroutine(WaitHit());
+        //m_Animator.SetBool("isHit", false);
+        if (hitCoroutine != null)
+        {
+            StopCoroutine(hitCoroutine);
+
+            if(m_Animator.GetBool("isHit1"))
+            {
+                m_Animator.SetBool("isHit2", true);
+                m_Animator.SetBool("isHit1", false);
+                Debug.Log("Hit 2");
+            }
+            else
+            {
+                m_Animator.SetBool("isHit2", false);
+                m_Animator.SetBool("isHit1", true);
+                Debug.Log("Hit 1");
+            }
+        }
+        else
+        {
+            m_Animator.SetBool("isHit1", true);
+        }
+
+        hitCoroutine = StartCoroutine(WaitHit());
+    }
+
+    public void FixRotation()
+    {
+        Vector3 direction = m_Spawn.transform.position - transform.position;
+        direction.y = 0;  // Garder la direction dans le plan XZ
+        transform.rotation = Quaternion.LookRotation(direction);
     }
 
     public void Touch()
     {
         m_Life -= 1;
-        canTouch = false;
         if(m_Life == 0)
         {
             Die();
@@ -112,14 +151,6 @@ public class Enemy : MonoBehaviour
         else
         {
             Hit();
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Projectile"))
-        {
-            if(canTouch) Touch();
         }
     }
 }
