@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     private float m_Angle;
     [SerializeField] private int m_Life = 1;
     private bool canTouch;
+    private bool canAttack;
     [SerializeField] float m_AttackDistance = 2f;
     [SerializeField] float m_Speed = 2f;
     private Animator m_Animator;
@@ -28,22 +29,27 @@ public class Enemy : MonoBehaviour
         m_StandCollider = GetComponent<CapsuleCollider>();
     }
 
-    public void Initialize(EnemySpawn spawn, float angle)
+    public void Initialize(EnemySpawn spawn, float angle, float speed = -1)
     {
+        if (speed == -1)
+        {
+            speed = m_Speed;
+        }
+
         m_Spawn = spawn;
         m_Angle = angle;
         canTouch = true;
-        SetSpeed(m_Speed);
+        canAttack = true;
+        SetSpeed(speed);
 
     }
 
     void FixedUpdate()
     {
 
-        if (DistanceXZ(m_Spawn.transform.position, transform.position) <= m_AttackDistance)
+        if (canAttack & DistanceXZ(m_Spawn.transform.position, transform.position) <= m_AttackDistance)
         {
-            if(!m_Animator.GetBool("isAttacking"))
-                Attack();
+            Attack();
         }
 
     }
@@ -58,7 +64,8 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-        m_Animator.SetBool("isAttacking", true);
+        m_Animator.SetTrigger("isAttacking");
+        canAttack = false;
         //canTouch = false;
         StartCoroutine(WaitAttack());
     }

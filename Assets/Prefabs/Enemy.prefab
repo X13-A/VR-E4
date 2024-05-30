@@ -261,7 +261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Life: 10
   m_AttackDistance: 2
-  m_Speed: 0.1
+  m_Speed: 2
 --- !u!54 &8136104391238739702
 Rigidbody:
   m_ObjectHideFlags: 0
