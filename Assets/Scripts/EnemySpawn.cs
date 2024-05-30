@@ -11,6 +11,7 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] float spawnRadius = 10f;
     [SerializeField] float spawnInterval = 5f;  // Intervalle entre les spawns en secondes
+    [SerializeField] float deltaspawnInterval = 1f;
     [SerializeField] float angleStep = 2f;  // Intervalle d'angle en degrés
     private List<float> availableAngles = new List<float>();
 
@@ -36,7 +37,9 @@ public class EnemySpawn : MonoBehaviour
             {
                 Spawn();
             }
-            yield return new WaitForSeconds(spawnInterval);
+            float randomFloat = Random.Range(-deltaspawnInterval, deltaspawnInterval);
+            Debug.Log(randomFloat);
+            yield return new WaitForSeconds(spawnInterval+deltaspawnInterval);
         }
     }
 
