@@ -431,6 +431,7 @@ MonoBehaviour:
   player: {fileID: 307463095}
   spawnRadius: 10
   spawnInterval: 2
+  deltaspawnInterval: 1
   angleStep: 2
 --- !u!4 &742474980
 Transform:
