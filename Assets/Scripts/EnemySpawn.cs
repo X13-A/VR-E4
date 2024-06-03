@@ -10,11 +10,13 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
     private int nFastEnemy;
     private GameObject enemy;
     private GameObject player;
-    private float spawnRadius = 10f;
-    private float spawnInterval = 5f;  // Intervalle entre les spawns en secondes
-    private float deltaspawnInterval = 1f;
-    private float angleStep = 2f;  // Intervalle d'angle en degrés
+    private float spawnRadius;
+    private float spawnInterval;  // Intervalle entre les spawns en secondes
+    private float deltaspawnInterval;
+    private float angleStep;  // Intervalle d'angle en degrés
+    private bool readAngleActivate;
     private List<float> availableAngles;
+    private int enemyLife;
 
     public void SubscribeEvents()
     {
@@ -38,6 +40,8 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
             spawnInterval = currentLevel.spawnInterval;
             deltaspawnInterval = currentLevel.deltaspawnInterval;
             angleStep = currentLevel.angleStep;
+            enemyLife   = currentLevel.enemyLife;
+            readAngleActivate = currentLevel.readAngleActivate;
             InitializeAngles();
             StartCoroutine(SpawnEnemies());
         }
@@ -96,12 +100,12 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
         {
             if (randomIndex2 < nFastEnemy)
             {
-                enemyScript.Initialize(this, angle, 6);
+                enemyScript.Initialize(this, angle, true, enemyLife/2);
                 nFastEnemy -= 1;
             }
             else
             {
-                enemyScript.Initialize(this, angle);
+                enemyScript.Initialize(this, angle, false, enemyLife);
             }
         }
 
@@ -128,9 +132,9 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
         return pointOnCircle;
     }
 
-    public void ReaddAngle(float angle)
+    public void ReadAngle(float angle)
     {
-        if (!availableAngles.Contains(angle))
+        if (readAngleActivate && !availableAngles.Contains(angle))
         {
             availableAngles.Add(angle);
         }

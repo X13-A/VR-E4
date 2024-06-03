@@ -5,11 +5,12 @@ public class Enemy : MonoBehaviour
 {
     private EnemySpawn m_Spawn;
     private float m_Angle;
-    [SerializeField] private int m_Life = 1;
+    private int m_Life;
     private bool canTouch;
     private bool canAttack;
     [SerializeField] float m_AttackDistance = 2f;
     [SerializeField] float m_Speed = 2f;
+    [SerializeField] float m_FastSpeed = 6f;
     private Animator m_Animator;
     private CapsuleCollider m_StandCollider;
     private BoxCollider m_DeathCollider;
@@ -29,18 +30,22 @@ public class Enemy : MonoBehaviour
         m_StandCollider = GetComponent<CapsuleCollider>();
     }
 
-    public void Initialize(EnemySpawn spawn, float angle, float speed = -1)
+    public void Initialize(EnemySpawn spawn, float angle, bool fast, int life)
     {
-        if (speed == -1)
+        if (!fast)
         {
-            speed = m_Speed;
+            SetSpeed(m_Speed);
+        }
+        else
+        {
+            SetSpeed(m_FastSpeed);
         }
 
         m_Spawn = spawn;
         m_Angle = angle;
         canTouch = true;
         canAttack = true;
-        SetSpeed(speed);
+        m_Life = life;
 
     }
 
@@ -104,7 +109,7 @@ public class Enemy : MonoBehaviour
         canTouch = false;
         if (m_Spawn != null)
         {
-            m_Spawn.ReaddAngle(m_Angle);
+            m_Spawn.ReadAngle(m_Angle);
         }
 
         m_Animator.SetTrigger("isDying");
