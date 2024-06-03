@@ -5,6 +5,7 @@ using SDD.Events;
 using UnityEngine.SceneManagement;
 
 public enum GAMESTATE { menu, play, pause, victory, gameover }
+public delegate void afterFunction();
 
 public class GameManager : MonoBehaviour, IEventHandler
 {
@@ -18,12 +19,14 @@ public class GameManager : MonoBehaviour, IEventHandler
     {
         EventManager.Instance.AddListener<PlayButtonClickedEvent>(Play);
         EventManager.Instance.AddListener<MenuButtonClickedEvent>(Menu);
+        EventManager.Instance.AddListener<FinishAllLevelEvent>(Win);
     }
 
     public void UnsubscribeEvents()
     {
         EventManager.Instance.RemoveListener<PlayButtonClickedEvent>(Play);
-        EventManager.Instance.AddListener<MenuButtonClickedEvent>(Menu);
+        EventManager.Instance.RemoveListener<MenuButtonClickedEvent>(Menu);
+        EventManager.Instance.RemoveListener<FinishAllLevelEvent>(Win);
     }
 
     void SetState(GAMESTATE newState)
@@ -57,10 +60,14 @@ public class GameManager : MonoBehaviour, IEventHandler
         UnsubscribeEvents();
     }
 
-    void Play(PlayButtonClickedEvent e)
+    void Play()
     {
         SetState(GAMESTATE.play);
-        SceneManager.LoadScene(1);
+    }
+
+    void Play(PlayButtonClickedEvent e)
+    {
+        LoadSceneThenFunction(1, Play);
     }
 
     void Menu(MenuButtonClickedEvent e)
@@ -68,4 +75,25 @@ public class GameManager : MonoBehaviour, IEventHandler
         SetState(GAMESTATE.menu);
     }
 
+    void Win()
+    {
+        SetState(GAMESTATE.victory);
+    }
+
+    void Win(FinishAllLevelEvent e)
+    {
+        LoadSceneThenFunction(0, Win);
+    }
+
+    private IEnumerator LoadSceneThenFunction(int sceneIndex, afterFunction function)
+    {
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
+        // Attendre que la scène soit chargée
+        while (!asyncOperation.isDone)
+        {
+            yield return null;
+        }
+        // La scène est chargée, appeler la fonction spécifiée
+        function.Invoke();
+    }
 }

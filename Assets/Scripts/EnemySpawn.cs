@@ -1,28 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SDD.Events;
 
-public class EnemySpawn : MonoBehaviour
+public class EnemySpawn : MonoBehaviour, IEventHandler
 {
 
-    [SerializeField] int nEnemy;
-    [SerializeField] int nFastEnemy;
-    [SerializeField] GameObject enemy;
-    [SerializeField] GameObject player;
-    [SerializeField] float spawnRadius = 10f;
-    [SerializeField] float spawnInterval = 5f;  // Intervalle entre les spawns en secondes
-    [SerializeField] float deltaspawnInterval = 1f;
-    [SerializeField] float angleStep = 2f;  // Intervalle d'angle en degrés
-    private List<float> availableAngles = new List<float>();
+    private int nEnemy;
+    private int nFastEnemy;
+    private GameObject enemy;
+    private GameObject player;
+    private float spawnRadius = 10f;
+    private float spawnInterval = 5f;  // Intervalle entre les spawns en secondes
+    private float deltaspawnInterval = 1f;
+    private float angleStep = 2f;  // Intervalle d'angle en degrés
+    private List<float> availableAngles;
 
-    void Start()
+    public void SubscribeEvents()
     {
-        InitializeAngles();
-        StartCoroutine(SpawnEnemies());
+        EventManager.Instance.AddListener<LoadLevelEvent>(SetEnemySpawn);
+    }
+
+    public void UnsubscribeEvents()
+    {
+        EventManager.Instance.RemoveListener<LoadLevelEvent>(SetEnemySpawn);
+    }
+
+    void SetEnemySpawn(LoadLevelEvent e)
+    {
+        Level currentLevel = e.level;
+        if (currentLevel != null) 
+        {
+            enemy = currentLevel.enemy;
+            nEnemy = currentLevel.nEnemy;
+            nFastEnemy = currentLevel.nFastEnemy;
+            spawnRadius = currentLevel.spawnRadius;
+            spawnInterval = currentLevel.spawnInterval;
+            deltaspawnInterval = currentLevel.deltaspawnInterval;
+            angleStep = currentLevel.angleStep;
+            InitializeAngles();
+            StartCoroutine(SpawnEnemies());
+        }
+    }
+
+    void OnEnable()
+    {
+        SubscribeEvents();
+    }
+
+    void OnDisable()
+    {
+        UnsubscribeEvents();
     }
 
     void InitializeAngles()
     {
+        availableAngles = new List<float>();
         for (float angle = 0; angle < 360; angle += angleStep)
         {
             availableAngles.Add(angle);
@@ -38,9 +71,9 @@ public class EnemySpawn : MonoBehaviour
                 Spawn();
             }
             float randomFloat = Random.Range(-deltaspawnInterval, deltaspawnInterval);
-            Debug.Log(randomFloat);
             yield return new WaitForSeconds(spawnInterval+deltaspawnInterval);
         }
+        EventManager.Instance.Raise(new AllEnemyHaveSpawnEvent());
     }
 
     void Spawn()

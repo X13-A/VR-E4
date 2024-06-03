@@ -27,6 +27,17 @@ public class GameWinEvent : SDD.Events.Event
 #region PlayerManager Events
 #endregion
 
+#region LevelManager Events
+public class FinishAllLevelEvent : SDD.Events.Event
+{
+}
+
+public class LoadLevelEvent : SDD.Events.Event
+{
+    public Level level { get; set; }
+}
+#endregion
+
 #region MenuManager Events
 public class PlayButtonClickedEvent : SDD.Events.Event
 {
@@ -38,9 +49,6 @@ public class QuitButtonClickedEvent : SDD.Events.Event
 {
 }
 public class MenuButtonClickedEvent : SDD.Events.Event
-{
-}
-public class ScoreButtonClickedEvent : SDD.Events.Event
 {
 }
 #endregion
@@ -55,4 +63,11 @@ public class ScoreButtonClickedEvent : SDD.Events.Event
 #endregion
 
 #region Enemy Event
+#endregion
+
+#region EnemySpawn Event
+public class AllEnemyHaveSpawnEvent : SDD.Events.Event
+{
+}
+
 #endregion
