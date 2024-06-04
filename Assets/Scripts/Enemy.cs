@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour, IEventHandler
     public void SubscribeEvents()
     {
         EventManager.Instance.AddListener<DestroyAllEnemiesEvent>(DestroyEnemy);
+        EventManager.Instance.AddListener<KillAllEnemiesEvent>(Die);
         EventManager.Instance.AddListener<GamePauseEvent>(Pause);
         EventManager.Instance.AddListener<GameResumeEvent>(Resume);
     }
@@ -29,6 +30,7 @@ public class Enemy : MonoBehaviour, IEventHandler
     public void UnsubscribeEvents()
     {
         EventManager.Instance.RemoveListener<DestroyAllEnemiesEvent>(DestroyEnemy);
+        EventManager.Instance.RemoveListener<KillAllEnemiesEvent>(Die);
         EventManager.Instance.RemoveListener<GamePauseEvent>(Pause);
         EventManager.Instance.RemoveListener<GameResumeEvent>(Resume);
     }

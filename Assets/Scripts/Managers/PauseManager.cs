@@ -44,7 +44,6 @@ public class PauseManager : MonoBehaviour, IEventHandler
         isPause = true;
         Time.timeScale = 0.0f;
         EventManager.Instance.Raise(new PauseEvent());
-        Debug.Log("Pause");
         m_PausePanel.SetActive(true);
     }
 
@@ -53,7 +52,6 @@ public class PauseManager : MonoBehaviour, IEventHandler
         isPause = false;
         Time.timeScale = 1.0f;
         EventManager.Instance.Raise(new ResumeEvent());
-        Debug.Log("Resume");
         m_PausePanel.SetActive(false);
     }
 }
