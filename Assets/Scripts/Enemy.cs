@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using SDD.Events;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IEventHandler
 {
     private EnemySpawn m_Spawn;
     private float m_Angle;
@@ -15,7 +16,33 @@ public class Enemy : MonoBehaviour
     private CapsuleCollider m_StandCollider;
     private BoxCollider m_DeathCollider;
     private Coroutine hitCoroutine;
+    private Coroutine attackCoroutine;
+    private Coroutine dieCoroutine;
 
+    public void SubscribeEvents()
+    {
+        EventManager.Instance.AddListener<DestroyAllEnemiesEvent>(DestroyEnemy);
+        EventManager.Instance.AddListener<GamePauseEvent>(Pause);
+        EventManager.Instance.AddListener<GameResumeEvent>(Resume);
+    }
+
+    public void UnsubscribeEvents()
+    {
+        EventManager.Instance.RemoveListener<DestroyAllEnemiesEvent>(DestroyEnemy);
+        EventManager.Instance.RemoveListener<GamePauseEvent>(Pause);
+        EventManager.Instance.RemoveListener<GameResumeEvent>(Resume);
+    }
+
+    void OnEnable()
+    {
+        SubscribeEvents();
+    }
+
+    void OnDisable()
+    {
+        UnsubscribeEvents();
+
+    }
 
     void SetSpeed(float speed)
     {
@@ -71,14 +98,15 @@ public class Enemy : MonoBehaviour
     {
         m_Animator.SetTrigger("isAttacking");
         canAttack = false;
-        //canTouch = false;
-        StartCoroutine(WaitAttack());
+        attackCoroutine = StartCoroutine(WaitAttack());
     }
 
     private IEnumerator WaitAttack()
     {
         yield return new WaitForSeconds(1.5f);
         Debug.Log("Game Over !");
+        EventManager.Instance.Raise(new LoseEvent());
+        attackCoroutine = null;
     }
 
     private IEnumerator WaitHit()
@@ -95,7 +123,8 @@ public class Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(2.5f);
         Debug.Log("Enemy Dead !");
-        Destroy(gameObject);
+        DestroyEnemy();
+        dieCoroutine = null;
     }
 
     public static float DistanceXZ(Vector3 a, Vector3 b)
@@ -115,7 +144,12 @@ public class Enemy : MonoBehaviour
         m_Animator.SetTrigger("isDying");
         m_StandCollider.enabled = false;
         m_DeathCollider.enabled = true;
-        StartCoroutine(WaitDie());
+        dieCoroutine = StartCoroutine(WaitDie());
+    }
+
+    void Die(KillAllEnemiesEvent e)
+    {
+        Die();
     }
 
     void Hit()
@@ -164,5 +198,37 @@ public class Enemy : MonoBehaviour
         {
             Hit();
         }
+    }
+
+    void Pause(GamePauseEvent e)
+    {
+        m_Animator.speed = 0;
+    }
+
+    void Resume(GameResumeEvent e)
+    {
+        m_Animator.speed = 1;
+    }
+
+    void DestroyEnemy(DestroyAllEnemiesEvent e)
+    {
+        DestroyEnemy();
+    }
+
+    void DestroyEnemy()
+    {
+        if (dieCoroutine != null)
+        {
+            StopCoroutine(dieCoroutine);
+        }
+        if (hitCoroutine != null)
+        {
+            StopCoroutine(hitCoroutine);
+        }
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+        }
+        Destroy(gameObject);
     }
 }

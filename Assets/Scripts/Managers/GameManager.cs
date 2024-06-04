@@ -15,18 +15,30 @@ public class GameManager : MonoBehaviour, IEventHandler
     GAMESTATE m_State;
     public bool IsPlaying => m_State == GAMESTATE.play;
 
+    void Start()
+    {
+        SetState(GAMESTATE.menu);
+    }
+
     public void SubscribeEvents()
     {
         EventManager.Instance.AddListener<PlayButtonClickedEvent>(Play);
+        EventManager.Instance.AddListener<ReplayButtonClickedEvent>(Replay);
         EventManager.Instance.AddListener<MenuButtonClickedEvent>(Menu);
         EventManager.Instance.AddListener<FinishAllLevelEvent>(Win);
+        EventManager.Instance.AddListener<LoseEvent>(Lose);
+        EventManager.Instance.AddListener<PauseEvent>(Pause);
+        EventManager.Instance.AddListener<ResumeEvent>(Resume);
     }
 
     public void UnsubscribeEvents()
     {
         EventManager.Instance.RemoveListener<PlayButtonClickedEvent>(Play);
+        EventManager.Instance.RemoveListener<ReplayButtonClickedEvent>(Replay);
         EventManager.Instance.RemoveListener<MenuButtonClickedEvent>(Menu);
         EventManager.Instance.RemoveListener<FinishAllLevelEvent>(Win);
+        EventManager.Instance.RemoveListener<LoseEvent>(Lose);
+        EventManager.Instance.RemoveListener<ResumeEvent>(Resume);
     }
 
     void SetState(GAMESTATE newState)
@@ -67,7 +79,12 @@ public class GameManager : MonoBehaviour, IEventHandler
 
     void Play(PlayButtonClickedEvent e)
     {
-        LoadSceneThenFunction(1, Play);
+        StartCoroutine(LoadSceneThenFunction(1, Play));
+    }
+
+    void Replay(ReplayButtonClickedEvent e)
+    {
+        StartCoroutine(LoadSceneThenFunction(1, Play));
     }
 
     void Menu(MenuButtonClickedEvent e)
@@ -82,7 +99,29 @@ public class GameManager : MonoBehaviour, IEventHandler
 
     void Win(FinishAllLevelEvent e)
     {
-        LoadSceneThenFunction(0, Win);
+        StartCoroutine(LoadSceneThenFunction(0, Win));
+    }
+
+    void Lose()
+    {
+        SetState(GAMESTATE.gameover);
+    }
+
+    void Lose(LoseEvent e)
+    {
+        StartCoroutine(LoadSceneThenFunction(0,Lose));
+    }
+
+    void Pause(PauseEvent e)
+    {
+        SetState(GAMESTATE.pause);
+    }
+
+    void Resume(ResumeEvent e)
+    {
+        m_State = GAMESTATE.play;
+        EventManager.Instance.Raise(new GameResumeEvent());
+
     }
 
     private IEnumerator LoadSceneThenFunction(int sceneIndex, afterFunction function)

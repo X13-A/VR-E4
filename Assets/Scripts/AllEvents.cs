@@ -25,6 +25,9 @@ public class GameWinEvent : SDD.Events.Event
 #endregion
 
 #region PlayerManager Events
+public class KillAllEnemiesEvent : SDD.Events.Event
+{
+}
 #endregion
 
 #region LevelManager Events
@@ -57,16 +60,28 @@ public class MenuButtonClickedEvent : SDD.Events.Event
 #endregion
 
 #region PauseManager Events
+public class PauseEvent : SDD.Events.Event
+{
+}
+public class ResumeEvent : SDD.Events.Event
+{
+}
 #endregion
 
 #region AudioManager Events
 #endregion
 
 #region Enemy Event
+public class LoseEvent : SDD.Events.Event
+{
+}
 #endregion
 
 #region EnemySpawn Event
 public class AllEnemyHaveSpawnEvent : SDD.Events.Event
+{
+}
+public class DestroyAllEnemiesEvent : SDD.Events.Event
 {
 }
 

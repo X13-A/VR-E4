@@ -46,6 +46,7 @@ public class LevelManager : MonoBehaviour, IEventHandler
 
     void LoadLevel(Level level)
     {
+        Debug.Log("Load Level " + m_IndexLevel);
         m_CurrentLevel = level;
         EventManager.Instance.Raise(new LoadLevelEvent { level = m_CurrentLevel});
     }

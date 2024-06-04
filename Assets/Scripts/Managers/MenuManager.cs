@@ -64,6 +64,16 @@ public class MenuManager : MonoBehaviour, IEventHandler
         EventManager.Instance.Raise(new QuitButtonClickedEvent());
     }
 
+    public void MenuButtonHasBeenClicked()
+    {
+        EventManager.Instance.Raise(new MenuButtonClickedEvent());
+    }
+
+    public void ReplayButtonHasBeenClicked()
+    {
+        EventManager.Instance.Raise(new ReplayButtonClickedEvent());
+    }
+
     void GameMenu(GameMenuEvent e)
     {
         OpenPanel(m_MenuPanel);

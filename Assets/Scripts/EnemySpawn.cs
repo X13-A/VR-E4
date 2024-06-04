@@ -9,7 +9,7 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
     private int nEnemy;
     private int nFastEnemy;
     private GameObject enemy;
-    private GameObject player;
+    [SerializeField] GameObject player;
     private float spawnRadius;
     private float spawnInterval;  // Intervalle entre les spawns en secondes
     private float deltaspawnInterval;
@@ -21,11 +21,18 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
     public void SubscribeEvents()
     {
         EventManager.Instance.AddListener<LoadLevelEvent>(SetEnemySpawn);
+        EventManager.Instance.AddListener<LoseEvent>(DestroyAllEnemies);
     }
 
     public void UnsubscribeEvents()
     {
         EventManager.Instance.RemoveListener<LoadLevelEvent>(SetEnemySpawn);
+        EventManager.Instance.RemoveListener<LoseEvent>(DestroyAllEnemies);
+    }
+
+    void DestroyAllEnemies(LoseEvent e)
+    {
+        EventManager.Instance.Raise(new DestroyAllEnemiesEvent());
     }
 
     void SetEnemySpawn(LoadLevelEvent e)
