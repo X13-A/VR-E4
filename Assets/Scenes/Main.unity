@@ -489,6 +489,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 413009153}
+  - component: {fileID: 413009154}
   m_Layer: 0
   m_Name: VR
   m_TagString: Untagged
@@ -516,6 +517,14 @@ Transform:
   - {fileID: 2066666915}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &413009154
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413009152}
+  m_Enabled: 1
 --- !u!1 &433620767
 GameObject:
   m_ObjectHideFlags: 0
@@ -2187,12 +2196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbce087d6582cc74baa8d907baa5f534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxEnemy: 50
-  enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
   player: {fileID: 60299312}
-  spawnRadius: 25
-  spawnInterval: 2
-  angleStep: 2
 --- !u!1 &2066666914
 GameObject:
   m_ObjectHideFlags: 0
