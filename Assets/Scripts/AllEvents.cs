@@ -22,6 +22,10 @@ public class GameLoseEvent : SDD.Events.Event
 public class GameWinEvent : SDD.Events.Event
 {
 }
+public class UpdateScoreEvent : SDD.Events.Event
+{
+    public int score { get; set; }
+}
 #endregion
 
 #region PlayerManager Events
@@ -124,4 +128,10 @@ public class DestroyAllEnemiesEvent : SDD.Events.Event
 {
 }
 
+#endregion
+
+#region ScoreManager Events
+public class UpdateScoresTextEvent : SDD.Events.Event
+{
+}
 #endregion
