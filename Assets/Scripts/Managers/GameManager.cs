@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SDD.Events;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public enum GAMESTATE { menu, play, pause, victory, gameover }
 public delegate void afterFunction();
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour, IEventHandler
     void Start()
     {
         SetState(GAMESTATE.menu);
+        EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "menu", eLoop = true });
     }
 
     public void SubscribeEvents()
@@ -58,6 +60,7 @@ public class GameManager : MonoBehaviour, IEventHandler
                 break;
             case GAMESTATE.gameover:
                 EventManager.Instance.Raise(new GameLoseEvent());
+                EventManager.Instance.Raise(new StopSoundAllEvent());
                 break;
         }
     }
@@ -80,6 +83,8 @@ public class GameManager : MonoBehaviour, IEventHandler
     void Play(PlayButtonClickedEvent e)
     {
         StartCoroutine(LoadSceneThenFunction(1, Play));
+        EventManager.Instance.Raise(new StopSoundEvent() { eNameClip = "menu" });
+        EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "ambient", eLoop = true });
     }
 
     void Replay(ReplayButtonClickedEvent e)
@@ -90,6 +95,7 @@ public class GameManager : MonoBehaviour, IEventHandler
     void Menu(MenuButtonClickedEvent e)
     {
         SetState(GAMESTATE.menu);
+        EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "menu", eLoop = true });
     }
 
     void Win()
