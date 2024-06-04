@@ -12,7 +12,7 @@ public class AssaultRifle : Weapon
 
     public override float GetDamage(float distance)
     {
-       
+        return 0f;
     }
 
     public override float GetRange()
