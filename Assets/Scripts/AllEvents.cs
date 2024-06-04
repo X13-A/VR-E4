@@ -69,6 +69,52 @@ public class ResumeEvent : SDD.Events.Event
 #endregion
 
 #region AudioManager Events
+public class SoundMixAllEvent : SDD.Events.Event
+{
+    public float? eSFXVolume;
+    public float? eGameplayVolume;
+    public float? eMenuVolume;
+    public float? ePlaneVolume;
+}
+
+public class SoundMixSoundEvent : SDD.Events.Event
+{
+    public string eNameClip; // Check audioTypes list in AudioManager
+    public float eVolume;
+}
+
+public class PlaneMixSoundEvent : SDD.Events.Event
+{
+    public float? eVolume;
+    public float? ePitch;
+}
+
+public class PlaySoundEvent : SDD.Events.Event
+{
+    public string eNameClip;
+    public bool eLoop;
+    public bool eCanStack;
+    public bool eDestroyWhenFinished = false;
+    public float ePitch = 1;
+    public float eVolumeMultiplier = 1;
+}
+
+public class StopSoundEvent : SDD.Events.Event
+{
+    public string eNameClip;
+}
+public class StopSoundAllEvent : SDD.Events.Event
+{ }
+
+public class StopSoundByTypeEvent : SDD.Events.Event
+{
+    public string eType; // Check audioTypes list in AudioManager
+}
+
+public class MuteAllSoundEvent : SDD.Events.Event
+{
+    public bool eMute;
+}
 #endregion
 
 #region Enemy Event
