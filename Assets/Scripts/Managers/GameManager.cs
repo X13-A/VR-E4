@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour, IEventHandler
     void Start()
     {
         SetState(GAMESTATE.menu);
-        EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "menu", eLoop = true });
     }
 
     public void SubscribeEvents()
@@ -51,9 +50,12 @@ public class GameManager : MonoBehaviour, IEventHandler
         {
             case GAMESTATE.menu:
                 EventManager.Instance.Raise(new GameMenuEvent());
+                EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "menu", eLoop = true });
                 break;
             case GAMESTATE.play:
                 EventManager.Instance.Raise(new GamePlayEvent());
+                EventManager.Instance.Raise(new StopSoundEvent() { eNameClip = "menu" });
+                EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "ambient", eLoop = true });
                 break;
             case GAMESTATE.victory:
                 EventManager.Instance.Raise(new GameWinEvent());
@@ -61,6 +63,10 @@ public class GameManager : MonoBehaviour, IEventHandler
             case GAMESTATE.gameover:
                 EventManager.Instance.Raise(new GameLoseEvent());
                 EventManager.Instance.Raise(new StopSoundAllEvent());
+                break;
+            case GAMESTATE.pause:
+                EventManager.Instance.Raise(new GamePauseEvent());
+                EventManager.Instance.Raise(new SoundMixAllEvent() { eGameplayVolume = 0 });
                 break;
         }
     }
@@ -83,8 +89,6 @@ public class GameManager : MonoBehaviour, IEventHandler
     void Play(PlayButtonClickedEvent e)
     {
         StartCoroutine(LoadSceneThenFunction(1, Play));
-        EventManager.Instance.Raise(new StopSoundEvent() { eNameClip = "menu" });
-        EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "ambient", eLoop = true });
     }
 
     void Replay(ReplayButtonClickedEvent e)
@@ -95,7 +99,6 @@ public class GameManager : MonoBehaviour, IEventHandler
     void Menu(MenuButtonClickedEvent e)
     {
         SetState(GAMESTATE.menu);
-        EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "menu", eLoop = true });
     }
 
     void Win()
@@ -127,7 +130,7 @@ public class GameManager : MonoBehaviour, IEventHandler
     {
         m_State = GAMESTATE.play;
         EventManager.Instance.Raise(new GameResumeEvent());
-
+        EventManager.Instance.Raise(new SoundMixAllEvent() { eGameplayVolume = 1 });
     }
 
     private IEnumerator LoadSceneThenFunction(int sceneIndex, afterFunction function)

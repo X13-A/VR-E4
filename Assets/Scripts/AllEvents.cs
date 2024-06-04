@@ -74,19 +74,12 @@ public class SoundMixAllEvent : SDD.Events.Event
     public float? eSFXVolume;
     public float? eGameplayVolume;
     public float? eMenuVolume;
-    public float? ePlaneVolume;
 }
 
 public class SoundMixSoundEvent : SDD.Events.Event
 {
     public string eNameClip; // Check audioTypes list in AudioManager
     public float eVolume;
-}
-
-public class PlaneMixSoundEvent : SDD.Events.Event
-{
-    public float? eVolume;
-    public float? ePitch;
 }
 
 public class PlaySoundEvent : SDD.Events.Event

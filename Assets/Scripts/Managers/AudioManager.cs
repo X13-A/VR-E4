@@ -126,7 +126,6 @@ public class AudioManager : MonoBehaviour, IEventHandler
                 eGameplayVolume = 0,
                 eMenuVolume = 0,
                 eSFXVolume = 0,
-                ePlaneVolume = 0
             });
         }
         else
