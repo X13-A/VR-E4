@@ -17,6 +17,7 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
     private bool readAngleActivate;
     private List<float> availableAngles;
     private int enemyLife;
+    private int nDeathEnemy;
 
     public void SubscribeEvents()
     {
@@ -38,6 +39,7 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
     void SetEnemySpawn(LoadLevelEvent e)
     {
         Level currentLevel = e.level;
+        nDeathEnemy = 0;
         if (currentLevel != null) 
         {
             enemy = currentLevel.enemy;
@@ -84,7 +86,6 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
             float randomFloat = Random.Range(-deltaspawnInterval, deltaspawnInterval);
             yield return new WaitForSeconds(spawnInterval+deltaspawnInterval);
         }
-        EventManager.Instance.Raise(new AllEnemyHaveSpawnEvent());
     }
 
     void Spawn()
@@ -139,11 +140,17 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
         return pointOnCircle;
     }
 
-    public void ReadAngle(float angle)
+    public void Death(float angle)
     {
         if (readAngleActivate && !availableAngles.Contains(angle))
         {
             availableAngles.Add(angle);
+        }
+        nEnemy += 1;
+        if(nEnemy == nDeathEnemy)
+        {
+            //EventManager.Instance.Raise(new AllEnemyDeadEvent());
+            //EventManager.Instance.Raise(new DestroyAllEnemiesEvent());
         }
     }
 }

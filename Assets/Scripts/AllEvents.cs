@@ -121,7 +121,7 @@ public class LoseEvent : SDD.Events.Event
 #endregion
 
 #region EnemySpawn Event
-public class AllEnemyHaveSpawnEvent : SDD.Events.Event
+public class AllEnemyDeadEvent : SDD.Events.Event
 {
 }
 public class DestroyAllEnemiesEvent : SDD.Events.Event

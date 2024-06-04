@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour, IEventHandler
     private EnemySpawn m_Spawn;
     private float m_Angle;
     private int m_Life;
+    private int m_MaxLife;
     private bool canTouch;
     private bool canAttack;
     [SerializeField] float m_AttackDistance = 2f;
@@ -75,6 +76,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         canTouch = true;
         canAttack = true;
         m_Life = life;
+        m_MaxLife = life;
 
     }
 
@@ -103,6 +105,14 @@ public class Enemy : MonoBehaviour, IEventHandler
         attackCoroutine = StartCoroutine(WaitAttack());
     }
 
+    void StandUp()
+    {
+        FixRotation();
+        m_Animator.SetBool("isStandingUp", true);
+        StartCoroutine(WaitStandUp());
+        m_Life = m_MaxLife;
+    }
+
     private IEnumerator WaitAttack()
     {
         yield return new WaitForSeconds(1.5f);
@@ -125,8 +135,22 @@ public class Enemy : MonoBehaviour, IEventHandler
     {
         yield return new WaitForSeconds(2.5f);
         Debug.Log("Enemy Dead !");
-        DestroyEnemy();
+        //DestroyEnemy();
         dieCoroutine = null;
+        StandUp();
+        if (m_Spawn != null)
+        {
+            //m_Spawn.Death(m_Angle);
+        }
+    }
+
+    private IEnumerator WaitStandUp()
+    {
+        yield return new WaitForSeconds(3.3f);
+        m_StandCollider.enabled = true;
+        m_DeathCollider.enabled = false;
+        m_Animator.SetBool("isStandingUp", false);
+        canTouch = true;
     }
 
     public static float DistanceXZ(Vector3 a, Vector3 b)
@@ -138,11 +162,6 @@ public class Enemy : MonoBehaviour, IEventHandler
     public void Die()
     {
         canTouch = false;
-        if (m_Spawn != null)
-        {
-            m_Spawn.ReadAngle(m_Angle);
-        }
-
         m_Animator.SetTrigger("isDying");
         m_StandCollider.enabled = false;
         m_DeathCollider.enabled = true;

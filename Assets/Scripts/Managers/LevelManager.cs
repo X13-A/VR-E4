@@ -24,14 +24,15 @@ public class LevelManager : MonoBehaviour, IEventHandler
     public void SubscribeEvents()
     {
         EventManager.Instance.AddListener<GamePlayEvent>(InitializeLevel);
-        EventManager.Instance.AddListener<AllEnemyHaveSpawnEvent>(FinishLevel);
+        EventManager.Instance.AddListener<AllEnemyDeadEvent>(FinishLevel);
         EventManager.Instance.AddListener<GameLoseEvent>(LoseLevel);
     }
 
     public void UnsubscribeEvents()
     {
         EventManager.Instance.RemoveListener<GamePlayEvent>(InitializeLevel);
-        EventManager.Instance.RemoveListener<AllEnemyHaveSpawnEvent>(FinishLevel);
+        EventManager.Instance.RemoveListener<AllEnemyDeadEvent>(FinishLevel);
+        EventManager.Instance.RemoveListener<GameLoseEvent>(LoseLevel);
     }
 
     void OnEnable()
@@ -59,9 +60,9 @@ public class LevelManager : MonoBehaviour, IEventHandler
         }
     }
 
-    void FinishLevel(AllEnemyHaveSpawnEvent e)
+    void FinishLevel(AllEnemyDeadEvent e)
     {
-        if(m_IndexLevel < m_Levels.Count - 1) { 
+        if (m_IndexLevel < m_Levels.Count - 1) { 
             m_IndexLevel++;
             LoadLevel(m_Levels[m_IndexLevel]);
         }
