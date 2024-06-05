@@ -59,11 +59,13 @@ public class GameManager : MonoBehaviour, IEventHandler
                 break;
             case GAMESTATE.victory:
                 EventManager.Instance.Raise(new GameWinEvent());
+                EventManager.Instance.Raise(new StopSoundAllEvent());
+                EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "winGame", eLoop = false });
                 break;
             case GAMESTATE.gameover:
                 EventManager.Instance.Raise(new GameLoseEvent());
                 EventManager.Instance.Raise(new StopSoundAllEvent());
-                EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "endGame", eLoop = false });
+                EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "loseGame", eLoop = false });
                 break;
             case GAMESTATE.pause:
                 EventManager.Instance.Raise(new GamePauseEvent());

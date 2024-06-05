@@ -13,7 +13,8 @@ public class AudioManager : MonoBehaviour, IEventHandler
     [SerializeField] private float maxGameplayVolume = 1;
     [SerializeField] private AudioClip ambient;
     [SerializeField] private AudioClip maxAmmo;
-    [SerializeField] private AudioClip endGame;
+    [SerializeField] private AudioClip loseGame;
+    [SerializeField] private AudioClip winGame;
 
     [Header("Zombie")]
     [SerializeField] private AudioClip spawnZombie;
@@ -47,7 +48,8 @@ public class AudioManager : MonoBehaviour, IEventHandler
         {
             { "ambient", Tuple.Create(ambient, "gameplay") },
             { "maxAmmo", Tuple.Create(maxAmmo, "gameplay") },
-            { "endGame", Tuple.Create(endGame, "gameplay") },
+            { "loseGame", Tuple.Create(loseGame, "gameplay") },
+            { "winGame", Tuple.Create(winGame, "gameplay") },
             { "spawnZombie", Tuple.Create(spawnZombie, "gameplay") },
             { "hitZombie", Tuple.Create(hitZombie, "gameplay") },
             { "groanZombie1", Tuple.Create(groanZombie1, "gameplay") },
