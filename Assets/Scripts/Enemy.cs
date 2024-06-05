@@ -82,8 +82,10 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_DeathCollider = GetComponent<BoxCollider>();
         m_StandCollider = GetComponent<CapsuleCollider>();
         m_audiSource = GetComponent<AudioSource>();
-        m_Groan = m_Groans[Random.Range(0, m_Groans.Count)];
-        m_Death = m_Deaths[Random.Range(0, m_Deaths.Count)];
+        if(m_Groans.Count>0)
+            m_Groan = m_Groans[Random.Range(0, m_Groans.Count)];
+        if(m_Deaths.Count > 0)
+            m_Death = m_Deaths[Random.Range(0, m_Deaths.Count)];
     }
 
     public void Initialize(EnemySpawn spawn, float angle, int mode, bool willCrawl, int life)
@@ -107,7 +109,7 @@ public class Enemy : MonoBehaviour, IEventHandler
 
         }
 
-        willCrawl = willCrawl;
+        this.willCrawl = willCrawl;
         m_Spawn = spawn;
         m_Angle = angle;
       
@@ -223,6 +225,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         dieCoroutine = null;
         m_Rigidbody.useGravity = true;
         m_DeathCollider.enabled = false;
+        m_Animator.SetBool("isCrawling", false);
         //StandUp();
         if (m_Spawn != null)
         {
@@ -266,7 +269,6 @@ public class Enemy : MonoBehaviour, IEventHandler
         }
         else
         {
-            m_Animator.SetBool("isCrawling", false);
             m_Animator.SetTrigger("isDying");
             dieCoroutine = StartCoroutine(WaitDie());
         }

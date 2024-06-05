@@ -133,6 +133,7 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
                 // Tirer un type d'ennemi aléatoire dans la liste
                 int randomPorcent = Random.Range(0, 100);
                 bool willCrawl = (randomPorcent < crawlPorcent);
+                Debug.Log("willCrawl : " + willCrawl);
                 int randomIndex2 = Random.Range(0, nFastEnemy + nWalkingEnemy);
                 if (randomIndex2 < nFastEnemy)
                 {

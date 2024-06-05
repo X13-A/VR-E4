@@ -405,7 +405,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4236251008811320224, guid: 4fb1944c61d48af43a2d1b870dfddc0a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -268.14172
+      value: -268.14258
       objectReference: {fileID: 0}
     - target: {fileID: 4236251008811320224, guid: 4fb1944c61d48af43a2d1b870dfddc0a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1272,7 +1272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &584729266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3711,11 +3711,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4236251008811320224, guid: 4fb1944c61d48af43a2d1b870dfddc0a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -54.07849
+      value: -54.078125
       objectReference: {fileID: 0}
     - target: {fileID: 4236251008811320224, guid: 4fb1944c61d48af43a2d1b870dfddc0a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 68.5405
+      value: 68.54053
       objectReference: {fileID: 0}
     - target: {fileID: 4236251008811320224, guid: 4fb1944c61d48af43a2d1b870dfddc0a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4276,7 +4276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4236251008811320224, guid: 4fb1944c61d48af43a2d1b870dfddc0a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -246.72632
+      value: -246.72656
       objectReference: {fileID: 0}
     - target: {fileID: 4236251008811320224, guid: 4fb1944c61d48af43a2d1b870dfddc0a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5005,7 +5005,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Levels:
-  - nWalkingEnemy: 3
+  - crawlPorcent: 100
+    nWalkingEnemy: 3
+    nFastEnemy: 3
+    screamingEnemy: 0
+    enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
+    spawnRadius: 20
+    spawnInterval: 1
+    deltaspawnInterval: 0.5
+    angleStep: 180
+    readAngleActivate: 0
+    enemyLife: 2
+  - crawlPorcent: 0
+    nWalkingEnemy: 3
     nFastEnemy: 3
     screamingEnemy: 1
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
@@ -5168,7 +5180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1949339610
 MonoBehaviour:
   m_ObjectHideFlags: 0
