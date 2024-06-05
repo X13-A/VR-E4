@@ -245,7 +245,7 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     private IEnumerator WaitCrawl()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(4f);
         crawlCoroutine = null;
         m_Animator.SetBool("isCrawling", true);
         canTouch = true;
