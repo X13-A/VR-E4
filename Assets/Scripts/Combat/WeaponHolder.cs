@@ -29,20 +29,4 @@ public class WeaponHolder : MonoBehaviour
         Vector3 adjustedForward = Vector3.Normalize(Vector3.Reflect(-delta, baseForward));
         weaponModel.forward = adjustedForward;
     }
-
-    private void OnDrawGizmos()
-    {
-        return;
-        Vector3 baseForward = Vector3.Normalize(secondHandTransform.position - mainHandTransform.position);
-        Vector3 delta = Vector3.Normalize(farGrip.position - closeGrip.position);
-        Vector3 adjustedForward = Vector3.Normalize(Vector3.Reflect(-delta, baseForward));
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(closeGrip.position, delta);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(mainHandTransform.position, baseForward * 10);
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(mainHandTransform.position, adjustedForward * 10);
-    }
 }
