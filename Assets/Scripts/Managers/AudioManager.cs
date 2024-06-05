@@ -2,9 +2,13 @@ using SDD.Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour, IEventHandler
+// Extract sound + cut: https://soundly.cc/fr
+// Preview cut: https://ytcutter.cc/ 
+
+public class AudioManager : Singleton<AudioManager>, IEventHandler
 {
     [Header("UI")]
     [SerializeField] private float maxSFXVolume = 1;
@@ -15,6 +19,9 @@ public class AudioManager : MonoBehaviour, IEventHandler
     [SerializeField] private AudioClip maxAmmo;
     [SerializeField] private AudioClip loseGame;
     [SerializeField] private AudioClip winGame;
+
+    [Header("Guns")]
+    [SerializeField] private AudioClip SKS_shot;
 
     [Header("Zombie")]
     [SerializeField] private AudioClip spawnZombie;
@@ -44,6 +51,7 @@ public class AudioManager : MonoBehaviour, IEventHandler
     void Awake()
     {
         /* /!\ Add all audio clips to the dictionary /!\ */
+        // TODO: Should use enums here
         audioClips = new Dictionary<string, Tuple<AudioClip, string>>()
         {
             { "ambient", Tuple.Create(ambient, "gameplay") },
@@ -58,6 +66,7 @@ public class AudioManager : MonoBehaviour, IEventHandler
             { "groanZombie4", Tuple.Create(groanZombie4, "gameplay") },
             { "deathZombie1", Tuple.Create(deathZombie1, "gameplay") },
             { "deathZombie2", Tuple.Create(deathZombie2, "gameplay") },
+            { "SKS_shot", Tuple.Create(SKS_shot, "gameplay") },
             { "menu", Tuple.Create(menu, "menu") }
         };
 
