@@ -1,24 +1,33 @@
 using UnityEngine;
 using System.Collections;
 using SDD.Events;
+using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour, IEventHandler
 {
+    [SerializeField] float m_AttackDistance = 2f;
+    [SerializeField] float m_Speed = 2f;
+    [SerializeField] float m_FastSpeed = 6f;
+    [SerializeField] List<AudioClip> m_Groans;
+    [SerializeField] List<AudioClip> m_Deaths;
+    [SerializeField] AudioClip m_Hit;
+    [SerializeField] AudioClip m_Runner;
+
     private EnemySpawn m_Spawn;
     private float m_Angle;
     private int m_Life;
     private int m_MaxLife;
     private bool canTouch;
     private bool canAttack;
-    [SerializeField] float m_AttackDistance = 2f;
-    [SerializeField] float m_Speed = 2f;
-    [SerializeField] float m_FastSpeed = 6f;
     private Animator m_Animator;
     private CapsuleCollider m_StandCollider;
     private BoxCollider m_DeathCollider;
     private Coroutine hitCoroutine;
     private Coroutine attackCoroutine;
     private Coroutine dieCoroutine;
+    private AudioSource m_audiSource;
+    private AudioClip m_Groan;
+    private AudioClip m_Death;
 
     public void SubscribeEvents()
     {
@@ -58,6 +67,9 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_Animator = GetComponent<Animator>();
         m_DeathCollider = GetComponent<BoxCollider>();
         m_StandCollider = GetComponent<CapsuleCollider>();
+        m_audiSource = GetComponent<AudioSource>();
+        m_Groan = m_Groans[Random.Range(0, m_Groans.Count)];
+        m_Death = m_Deaths[Random.Range(0, m_Deaths.Count)];
     }
 
     public void Initialize(EnemySpawn spawn, float angle, bool fast, int life)
@@ -77,7 +89,9 @@ public class Enemy : MonoBehaviour, IEventHandler
         canAttack = true;
         m_Life = life;
         m_MaxLife = life;
-
+        m_audiSource.clip = m_Groan;
+        m_audiSource.loop = true;
+        m_audiSource.Play();
     }
 
     void FixedUpdate()
@@ -123,7 +137,14 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     private IEnumerator WaitHit()
     {
+        m_audiSource.Stop();
+        m_audiSource.clip = m_Hit;
+        m_audiSource.loop = false;
+        m_audiSource.Play();
         yield return new WaitForSeconds(2f);
+        m_audiSource.clip = m_Groan;
+        m_audiSource.loop = true;
+        m_audiSource.Play();
         m_Animator.SetBool("isHit1", false);
         m_Animator.SetBool("isHit2", false);
         Debug.Log("Can Touch !");
@@ -133,6 +154,10 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     private IEnumerator WaitDie()
     {
+        m_audiSource.Stop();
+        m_audiSource.clip = m_Death;
+        m_audiSource.loop = false;
+        m_audiSource.Play();
         yield return new WaitForSeconds(2.5f);
         Debug.Log("Enemy Dead !");
         //DestroyEnemy();

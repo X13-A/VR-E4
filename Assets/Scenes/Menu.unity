@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &32075411
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2060,6 +2060,7 @@ MonoBehaviour:
   maxGameplayVolume: 1
   ambient: {fileID: 8300000, guid: 2b283c855304dea4e9e5236c656353f6, type: 3}
   maxAmmo: {fileID: 8300000, guid: 12247473d3a77c04aa15ae0a25a1a9d9, type: 3}
+  endGame: {fileID: 8300000, guid: 7903dba7224c10a4e8ebfdc44605fbcb, type: 3}
   spawnZombie: {fileID: 8300000, guid: fcb3328a01fd3ff4ca595820e43102b2, type: 3}
   hitZombie: {fileID: 8300000, guid: 50f46479c84a00640af451ae05d355ab, type: 3}
   groanZombie1: {fileID: 8300000, guid: ab55115f8c2d4cf4e86dd243f959002c, type: 3}
@@ -2370,7 +2371,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2028332854
 RectTransform:
   m_ObjectHideFlags: 0

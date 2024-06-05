@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour, IEventHandler
                 break;
             case GAMESTATE.play:
                 EventManager.Instance.Raise(new GamePlayEvent());
-                EventManager.Instance.Raise(new StopSoundEvent() { eNameClip = "menu" });
+                EventManager.Instance.Raise(new StopSoundAllEvent());
                 EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "ambient", eLoop = true });
                 break;
             case GAMESTATE.victory:
@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour, IEventHandler
             case GAMESTATE.gameover:
                 EventManager.Instance.Raise(new GameLoseEvent());
                 EventManager.Instance.Raise(new StopSoundAllEvent());
+                EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "endGame", eLoop = false });
                 break;
             case GAMESTATE.pause:
                 EventManager.Instance.Raise(new GamePauseEvent());
