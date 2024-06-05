@@ -4,6 +4,7 @@ using System;
 [Serializable]
 public class Level
 {
+    public int crawlPorcent;
     public int nWalkingEnemy;
     public int nFastEnemy;
     public bool screamingEnemy;

@@ -5,7 +5,7 @@ using SDD.Events;
 
 public class EnemySpawn : MonoBehaviour, IEventHandler
 {
-
+    private int crawlPorcent;
     private int nEnemy;
     private int nFastEnemy;
     private int nWalkingEnemy;
@@ -59,6 +59,7 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
             angleStep = currentLevel.angleStep;
             enemyLife   = currentLevel.enemyLife;
             readAngleActivate = currentLevel.readAngleActivate;
+            crawlPorcent = currentLevel.crawlPorcent;
             InitializeAngles();
             StartCoroutine(SpawnEnemies());
         }
@@ -115,10 +116,6 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
         Debug.Log(availableAngles.Count);
         float angle = availableAngles[randomIndex];
         availableAngles.RemoveAt(randomIndex);
-        if(availableAngles.Count == 0)
-        {
-
-        }
 
         Vector3 spawnPosition = GetPointOnCircle(spawnRadius, player.transform.position, angle);
         GameObject newEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
@@ -129,20 +126,22 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
         {
             if(screamingEnemy && nEnemy == 1)
             {
-                enemyScript.Initialize(this, angle, 2, enemyLife);
+                enemyScript.Initialize(this, angle, 2, false, enemyLife);
             }
             else
             {
                 // Tirer un type d'ennemi aléatoire dans la liste
+                int randomPorcent = Random.Range(0, 100);
+                bool willCrawl = (randomPorcent < crawlPorcent);
                 int randomIndex2 = Random.Range(0, nFastEnemy + nWalkingEnemy);
                 if (randomIndex2 < nFastEnemy)
                 {
-                    enemyScript.Initialize(this, angle, 1, enemyLife / 2);
+                    enemyScript.Initialize(this, angle, 1, willCrawl, enemyLife / 2);
                     nFastEnemy -= 1;
                 }
                 else
                 {
-                    enemyScript.Initialize(this, angle, 0, enemyLife);
+                    enemyScript.Initialize(this, angle, 0, willCrawl, enemyLife);
                     nWalkingEnemy -= 1;
                 }
             }

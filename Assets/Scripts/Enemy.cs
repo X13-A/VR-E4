@@ -8,10 +8,7 @@ public class Enemy : MonoBehaviour, IEventHandler
     [SerializeField] float m_AttackDistance = 2f;
     [SerializeField] float m_Speed = 2f;
     [SerializeField] float m_FastSpeed = 6f;
-    [SerializeField] List<AudioClip> m_Groans;
-    [SerializeField] List<AudioClip> m_Deaths;
-    [SerializeField] AudioClip m_Hit;
-    [SerializeField] AudioClip m_Runner;
+    [SerializeField] float m_ScreamDistance = 6f;
 
     private EnemySpawn m_Spawn;
     private float m_Angle;
@@ -19,29 +16,29 @@ public class Enemy : MonoBehaviour, IEventHandler
     private int m_MaxLife;
     private bool canTouch;
     private bool canAttack;
-<<<<<<< HEAD
     private bool willScream;
-    [SerializeField] float m_AttackDistance = 2f;
-    [SerializeField] float m_ScreamDistance = 5f;
-    [SerializeField] float m_Speed = 2f;
-    [SerializeField] float m_FastSpeed = 6f;
-=======
->>>>>>> 1431f32aa12a23e01736dd12c00e0801d8ae2bed
+    private bool willCrawl;
     private Animator m_Animator;
     private CapsuleCollider m_StandCollider;
     private BoxCollider m_DeathCollider;
+
     private Coroutine hitCoroutine;
     private Coroutine attackCoroutine;
     private Coroutine dieCoroutine;
-<<<<<<< HEAD
     private Coroutine screamCoroutine;
     private Coroutine standUpCoroutine;
+    private Coroutine crawlCoroutine;
     private Rigidbody m_Rigidbody;
-=======
+
     private AudioSource m_audiSource;
     private AudioClip m_Groan;
     private AudioClip m_Death;
->>>>>>> 1431f32aa12a23e01736dd12c00e0801d8ae2bed
+    [SerializeField] List<AudioClip> m_Groans;
+    [SerializeField] List<AudioClip> m_Deaths;
+    [SerializeField] AudioClip m_Hit;
+    [SerializeField] AudioClip m_Runner;
+
+
 
     public void SubscribeEvents()
     {
@@ -89,7 +86,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_Death = m_Deaths[Random.Range(0, m_Deaths.Count)];
     }
 
-    public void Initialize(EnemySpawn spawn, float angle, int mode, int life)
+    public void Initialize(EnemySpawn spawn, float angle, int mode, bool willCrawl, int life)
     {
         canTouch = true;
         willScream = false;
@@ -110,6 +107,7 @@ public class Enemy : MonoBehaviour, IEventHandler
 
         }
 
+        willCrawl = willCrawl;
         m_Spawn = spawn;
         m_Angle = angle;
       
@@ -133,9 +131,6 @@ public class Enemy : MonoBehaviour, IEventHandler
         {
             Attack();
         }
-
-      
-
     }
 
     void Update()
@@ -245,6 +240,15 @@ public class Enemy : MonoBehaviour, IEventHandler
         standUpCoroutine = null;
     }
 
+    private IEnumerator WaitCrawl()
+    {
+        yield return new WaitForSeconds(2.5f);
+        crawlCoroutine = null;
+        m_Animator.SetBool("isCrawling", true);
+        canTouch = true;
+        m_Life = 1;
+    }
+
     public static float DistanceXZ(Vector3 a, Vector3 b)
     {
         Vector3 delta = new Vector3(a.x - b.x, 0, a.z - b.z);
@@ -254,10 +258,21 @@ public class Enemy : MonoBehaviour, IEventHandler
     public void Die()
     {
         canTouch = false;
-        m_Animator.SetTrigger("isDying");
+        if (willCrawl)
+        {
+            m_Animator.SetTrigger("isDying2");
+            willCrawl = false;
+            crawlCoroutine = StartCoroutine(WaitCrawl());
+        }
+        else
+        {
+            m_Animator.SetBool("isCrawling", false);
+            m_Animator.SetTrigger("isDying");
+            dieCoroutine = StartCoroutine(WaitDie());
+        }
+
         m_StandCollider.enabled = false;
         m_DeathCollider.enabled = true;
-        dieCoroutine = StartCoroutine(WaitDie());
     }
 
     void Die(KillAllEnemiesEvent e)
