@@ -71,7 +71,6 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     void SetSpeed(float speed)
     {
-        m_Speed = speed;
         m_Animator.SetFloat("Speed", speed);
     }
 
@@ -197,17 +196,18 @@ public class Enemy : MonoBehaviour, IEventHandler
         willScream = false;
         m_Animator.SetBool("isScreaming", true);
         screamCoroutine = StartCoroutine(WaitScream());
-        SetSpeed(m_Speed);
     }
 
     private IEnumerator WaitScream()
     {
-        yield return new WaitForSeconds(1.25f);
+        yield return new WaitForSeconds(1.15f);
         m_Animator.speed = 0.25f;
+        SetSpeed(m_Speed);
         yield return new WaitForSeconds(3f);
         EventManager.Instance.Raise(new ScreamEvent());
+        //m_Animator.speed = 1f;
+        yield return new WaitForSeconds(3f);
         m_Animator.speed = 1f;
-        yield return new WaitForSeconds(0.8f);
         m_Animator.SetBool("isScreaming", false);
         screamCoroutine = null;
         canTouch = true;
