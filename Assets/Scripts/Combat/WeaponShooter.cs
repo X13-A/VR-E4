@@ -1,72 +1,59 @@
+using SDD.Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
 
+public enum WeaponType { Auto, SemiAuto }
+
 public class WeaponShooter : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem fireParticles;
-    [SerializeField] private Transform barrel;
-    [SerializeField] private float range = 100f;
+    [Header("Properties")]
+    [SerializeField] protected float damage;
+    [SerializeField] protected float range;
+    [SerializeField] protected float shootRate;
+    [SerializeField] protected WeaponType weaponType;
 
-    [SerializeField] private InputActionAsset inputActionAsset;
-    private InputAction shootAction;
-    
-    private void Awake()
+    [Header("Function")]
+    [SerializeField] protected InputActionAsset inputActionAsset;
+    [SerializeField] protected Transform barrel;
+
+    [Header("SFX")]
+    [SerializeField] protected Light muzzleFlash;
+    [SerializeField] protected ParticleSystem muzzleFlashParticles;
+    [SerializeField] protected List<Animation> shootAnimations;
+
+
+    protected float shootDelay => 1f / shootRate;
+    protected float lastShootTime;
+
+    protected InputAction shootAction;
+
+    protected void Awake()
     {
         shootAction = inputActionAsset.FindActionMap("XRI RightHand Interaction").FindAction("Shoot");
         shootAction.performed += contex => Shoot();
-
     }
-    private void OnEnable()
+
+    protected void OnEnable()
     {
         shootAction.Enable();
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         shootAction.performed -= ctx => Shoot();
         shootAction.Disable();
     }
 
-    void Shoot()
+    protected virtual bool CanShoot()
     {
-        fireParticles.Stop();
-        fireParticles.Play();
-
-        RaycastHit hit;
-        if (Physics.Raycast(barrel.position, barrel.forward, out hit, range, LayerMask.GetMask("Enemy")))
-        {
-            Enemy enemy = hit.collider.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                enemy.Touch(1);
-            }
-        }
-
-        StartCoroutine(TriggerHapticFeedback());
+        return Time.time - lastShootTime > shootDelay;
     }
 
-    private IEnumerator TriggerHapticFeedback()
+    protected virtual void Shoot()
     {
-        float duration = 0.1f;
-        float amplitude = 1f;
-
-        // Find the right hand device
-        var rightHandDevice = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
-        if (rightHandDevice.isValid)
-        {
-            rightHandDevice.SendHapticImpulse(0, amplitude, duration);
-        }
-
-        // Find the left hand device
-        var leftHandDevice = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
-        if (leftHandDevice.isValid)
-        {
-            leftHandDevice.SendHapticImpulse(0, amplitude, duration);
-        }
-
-        yield return new WaitForSeconds(duration);
+        lastShootTime = Time.time;
     }
 }
