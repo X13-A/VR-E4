@@ -207,7 +207,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         yield return new WaitForSeconds(3f);
         EventManager.Instance.Raise(new ScreamEvent());
         m_Animator.speed = 1f;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.8f);
         m_Animator.SetBool("isScreaming", false);
         screamCoroutine = null;
         canTouch = true;
