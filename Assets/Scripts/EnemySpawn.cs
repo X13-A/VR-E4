@@ -8,6 +8,8 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
 
     private int nEnemy;
     private int nFastEnemy;
+    private int nWalkingEnemy;
+    private bool screamingEnemy;
     private GameObject enemy;
     [SerializeField] GameObject player;
     private float spawnRadius;
@@ -17,7 +19,7 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
     private bool readAngleActivate;
     private List<float> availableAngles;
     private int enemyLife;
-    private int nDeathEnemy;
+    private int nNotDeadEnemy;
 
     public void SubscribeEvents()
     {
@@ -39,12 +41,18 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
     void SetEnemySpawn(LoadLevelEvent e)
     {
         Level currentLevel = e.level;
-        nDeathEnemy = 0;
         if (currentLevel != null) 
         {
             enemy = currentLevel.enemy;
-            nEnemy = currentLevel.nEnemy;
+            nWalkingEnemy = currentLevel.nWalkingEnemy;
             nFastEnemy = currentLevel.nFastEnemy;
+            screamingEnemy = currentLevel.screamingEnemy;
+            nEnemy = nWalkingEnemy + nFastEnemy;
+            if (screamingEnemy)
+            {
+                nEnemy += 1;
+            }
+            nNotDeadEnemy = nEnemy;
             spawnRadius = currentLevel.spawnRadius;
             spawnInterval = currentLevel.spawnInterval;
             deltaspawnInterval = currentLevel.deltaspawnInterval;
@@ -79,25 +87,38 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
     {
         while (nEnemy>0)
         {
-            if (availableAngles.Count > 0)
+            if (availableAngles.Count >0)
             {
-                Spawn();
+                if (nEnemy>1 || (nEnemy==1 && (!screamingEnemy||nNotDeadEnemy==1)))
+                {
+                    Spawn();
+                    float randomFloat = Random.Range(-deltaspawnInterval, deltaspawnInterval);
+                    yield return new WaitForSeconds(spawnInterval + deltaspawnInterval);
+                }
+                else
+                {
+                    yield return null;
+                }
             }
-            float randomFloat = Random.Range(-deltaspawnInterval, deltaspawnInterval);
-            yield return new WaitForSeconds(spawnInterval+deltaspawnInterval);
+            else
+            {
+                yield return null;
+            }
         }
     }
 
     void Spawn()
     {
-        if (availableAngles.Count == 0) return;
-
         // Tirer un angle aléatoire de la liste
         int randomIndex = Random.Range(0, availableAngles.Count);
-        // Tirer un type d'ennemi aléatoire dans la liste
-        int randomIndex2 = Random.Range(0, nEnemy);
+        Debug.Log(randomIndex);
+        Debug.Log(availableAngles.Count);
         float angle = availableAngles[randomIndex];
         availableAngles.RemoveAt(randomIndex);
+        if(availableAngles.Count == 0)
+        {
+
+        }
 
         Vector3 spawnPosition = GetPointOnCircle(spawnRadius, player.transform.position, angle);
         GameObject newEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
@@ -106,14 +127,24 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
         Enemy enemyScript = newEnemy.GetComponent<Enemy>();
         if (enemyScript != null)
         {
-            if (randomIndex2 < nFastEnemy)
+            if(screamingEnemy && nEnemy == 1)
             {
-                enemyScript.Initialize(this, angle, true, enemyLife/2);
-                nFastEnemy -= 1;
+                enemyScript.Initialize(this, angle, 2, enemyLife);
             }
             else
             {
-                enemyScript.Initialize(this, angle, false, enemyLife);
+                // Tirer un type d'ennemi aléatoire dans la liste
+                int randomIndex2 = Random.Range(0, nFastEnemy + nWalkingEnemy);
+                if (randomIndex2 < nFastEnemy)
+                {
+                    enemyScript.Initialize(this, angle, 1, enemyLife / 2);
+                    nFastEnemy -= 1;
+                }
+                else
+                {
+                    enemyScript.Initialize(this, angle, 0, enemyLife);
+                    nWalkingEnemy -= 1;
+                }
             }
         }
 
@@ -142,15 +173,20 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
 
     public void Death(float angle)
     {
-        if (readAngleActivate && !availableAngles.Contains(angle))
+        if (availableAngles.Count == 0)
+        {
+            InitializeAngles();
+            Debug.Log("INITIALIZE ANGLES :"+availableAngles.Count);
+        }
+        else if (readAngleActivate && !availableAngles.Contains(angle))
         {
             availableAngles.Add(angle);
         }
-        nEnemy += 1;
-        if(nEnemy == nDeathEnemy)
+        nNotDeadEnemy -= 1;
+        if(nNotDeadEnemy == 0  && nEnemy==0)
         {
-            //EventManager.Instance.Raise(new AllEnemyDeadEvent());
-            //EventManager.Instance.Raise(new DestroyAllEnemiesEvent());
+            EventManager.Instance.Raise(new AllEnemyDeadEvent());
+            EventManager.Instance.Raise(new DestroyAllEnemiesEvent());
         }
     }
 }

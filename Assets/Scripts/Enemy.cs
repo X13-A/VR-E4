@@ -10,7 +10,9 @@ public class Enemy : MonoBehaviour, IEventHandler
     private int m_MaxLife;
     private bool canTouch;
     private bool canAttack;
+    private bool willScream;
     [SerializeField] float m_AttackDistance = 2f;
+    [SerializeField] float m_ScreamDistance = 5f;
     [SerializeField] float m_Speed = 2f;
     [SerializeField] float m_FastSpeed = 6f;
     private Animator m_Animator;
@@ -19,6 +21,9 @@ public class Enemy : MonoBehaviour, IEventHandler
     private Coroutine hitCoroutine;
     private Coroutine attackCoroutine;
     private Coroutine dieCoroutine;
+    private Coroutine screamCoroutine;
+    private Coroutine standUpCoroutine;
+    private Rigidbody m_Rigidbody;
 
     public void SubscribeEvents()
     {
@@ -26,6 +31,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         EventManager.Instance.AddListener<KillAllEnemiesEvent>(Die);
         EventManager.Instance.AddListener<GamePauseEvent>(Pause);
         EventManager.Instance.AddListener<GameResumeEvent>(Resume);
+        EventManager.Instance.AddListener<ScreamEvent>(StandUp);
     }
 
     public void UnsubscribeEvents()
@@ -34,6 +40,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         EventManager.Instance.RemoveListener<KillAllEnemiesEvent>(Die);
         EventManager.Instance.RemoveListener<GamePauseEvent>(Pause);
         EventManager.Instance.RemoveListener<GameResumeEvent>(Resume);
+        EventManager.Instance.RemoveListener<ScreamEvent>(StandUp);
     }
 
     void OnEnable()
@@ -56,24 +63,35 @@ public class Enemy : MonoBehaviour, IEventHandler
     void Awake()
     {
         m_Animator = GetComponent<Animator>();
+        m_Rigidbody = GetComponent<Rigidbody>();
         m_DeathCollider = GetComponent<BoxCollider>();
         m_StandCollider = GetComponent<CapsuleCollider>();
     }
 
-    public void Initialize(EnemySpawn spawn, float angle, bool fast, int life)
+    public void Initialize(EnemySpawn spawn, float angle, int mode, int life)
     {
-        if (!fast)
+        canTouch = true;
+        willScream = false;
+        Debug.Log("Zombie mode :" + mode);
+        if (mode == 0) // Walking Zombie Mode
         {
             SetSpeed(m_Speed);
         }
-        else
+        else if(mode == 1) // Fast Zombie Mode
         {
             SetSpeed(m_FastSpeed);
+        }
+        else
+        {
+            canTouch = false;
+            willScream = true;
+            SetSpeed(m_FastSpeed);
+
         }
 
         m_Spawn = spawn;
         m_Angle = angle;
-        canTouch = true;
+      
         canAttack = true;
         m_Life = life;
         m_MaxLife = life;
@@ -82,11 +100,18 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     void FixedUpdate()
     {
-
-        if (canAttack & DistanceXZ(m_Spawn.transform.position, transform.position) <= m_AttackDistance)
+        float distanceToPlayer = DistanceXZ(m_Spawn.transform.position, transform.position);
+        if(willScream && distanceToPlayer <= m_ScreamDistance)
+        {
+            Scream();
+            Debug.Log("Scream");
+        }
+        else if (canAttack & distanceToPlayer <= m_AttackDistance)
         {
             Attack();
         }
+
+      
 
     }
 
@@ -109,14 +134,23 @@ public class Enemy : MonoBehaviour, IEventHandler
     {
         FixRotation();
         m_Animator.SetBool("isStandingUp", true);
-        StartCoroutine(WaitStandUp());
+        standUpCoroutine = StartCoroutine(WaitStandUp());
+        m_DeathCollider.enabled = true;
+        m_Rigidbody.useGravity = true;
         m_Life = m_MaxLife;
+    }
+
+    void StandUp(ScreamEvent e)
+    {
+        if(m_Life <= 0)
+        {
+            StandUp();
+        }
     }
 
     private IEnumerator WaitAttack()
     {
         yield return new WaitForSeconds(1.5f);
-        Debug.Log("Game Over !");
         EventManager.Instance.Raise(new LoseEvent());
         attackCoroutine = null;
     }
@@ -131,16 +165,39 @@ public class Enemy : MonoBehaviour, IEventHandler
         FixRotation();
     }
 
+    void Scream()
+    {
+        willScream = false;
+        m_Animator.SetBool("isScreaming", true);
+        screamCoroutine = StartCoroutine(WaitScream());
+        SetSpeed(m_Speed);
+    }
+
+    private IEnumerator WaitScream()
+    {
+        yield return new WaitForSeconds(1.25f);
+        m_Animator.speed = 0.25f;
+        yield return new WaitForSeconds(3f);
+        EventManager.Instance.Raise(new ScreamEvent());
+        m_Animator.speed = 1f;
+        yield return new WaitForSeconds(0.5f);
+        m_Animator.SetBool("isScreaming", false);
+        screamCoroutine = null;
+        canTouch = true;
+
+    }
+
     private IEnumerator WaitDie()
     {
         yield return new WaitForSeconds(2.5f);
-        Debug.Log("Enemy Dead !");
         //DestroyEnemy();
         dieCoroutine = null;
-        StandUp();
+        m_Rigidbody.useGravity = true;
+        m_DeathCollider.enabled = false;
+        //StandUp();
         if (m_Spawn != null)
         {
-            //m_Spawn.Death(m_Angle);
+            m_Spawn.Death(m_Angle);
         }
     }
 
@@ -151,6 +208,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_DeathCollider.enabled = false;
         m_Animator.SetBool("isStandingUp", false);
         canTouch = true;
+        standUpCoroutine = null;
     }
 
     public static float DistanceXZ(Vector3 a, Vector3 b)
@@ -184,13 +242,11 @@ public class Enemy : MonoBehaviour, IEventHandler
             {
                 m_Animator.SetBool("isHit2", true);
                 m_Animator.SetBool("isHit1", false);
-                Debug.Log("Hit 2");
             }
             else
             {
                 m_Animator.SetBool("isHit2", false);
                 m_Animator.SetBool("isHit1", true);
-                Debug.Log("Hit 1");
             }
         }
         else

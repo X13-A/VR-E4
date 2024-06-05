@@ -259,9 +259,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a923aa3b23235684490b3f2a419f98da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Life: 10
   m_AttackDistance: 2
+  m_ScreamDistance: 10
   m_Speed: 2
+  m_FastSpeed: 6
 --- !u!54 &8136104391238739702
 Rigidbody:
   m_ObjectHideFlags: 0

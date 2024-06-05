@@ -118,6 +118,9 @@ public class MuteAllSoundEvent : SDD.Events.Event
 public class LoseEvent : SDD.Events.Event
 {
 }
+public class ScreamEvent : SDD.Events.Event
+{
+}
 #endregion
 
 #region EnemySpawn Event

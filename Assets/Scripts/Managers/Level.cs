@@ -4,8 +4,9 @@ using System;
 [Serializable]
 public class Level
 {
-    public int nEnemy;
+    public int nWalkingEnemy;
     public int nFastEnemy;
+    public bool screamingEnemy;
     public GameObject enemy;
     public float spawnRadius;
     public float spawnInterval;  // Intervalle entre les spawns en secondes
@@ -16,10 +17,9 @@ public class Level
 
 
     // Constructeur de la classe Level
-    public Level(int nEnemy, int nFastEnemy, GameObject enemy, float spawnRadius, float spawnInterval
+    public Level(int nWalkingEnemy, int nFastEnemy, bool screamingEnemy, GameObject enemy, float spawnRadius, float spawnInterval
         , float deltaSpawnInterval, float angleStep, bool readAngleActivate, int enemyLife)
     {
-        this.nEnemy = nEnemy;
         this.nFastEnemy = nFastEnemy;
         this.enemy = enemy;
         this.spawnRadius = spawnRadius;

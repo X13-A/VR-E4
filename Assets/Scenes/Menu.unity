@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.00034240226, g: 0.0002774881, b: 0.00004682659, a: 1}
+  m_IndirectSpecularColor: {r: 0.000075043696, g: 0.000060816245, b: 0.00001026505, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2220,33 +2220,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Levels:
-  - nEnemy: 2
-    nFastEnemy: 0
+  - nWalkingEnemy: 3
+    nFastEnemy: 3
+    screamingEnemy: 1
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
-    spawnRadius: 10
-    spawnInterval: 5
-    deltaspawnInterval: 2
+    spawnRadius: 20
+    spawnInterval: 1
+    deltaspawnInterval: 0.5
     angleStep: 180
     readAngleActivate: 0
     enemyLife: 2
-  - nEnemy: 5
-    nFastEnemy: 1
-    enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
-    spawnRadius: 10
-    spawnInterval: 4
-    deltaspawnInterval: 2
-    angleStep: 72
-    readAngleActivate: 0
-    enemyLife: 3
-  - nEnemy: 8
-    nFastEnemy: 2
-    enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
-    spawnRadius: 10
-    spawnInterval: 4
-    deltaspawnInterval: 2
-    angleStep: 45
-    readAngleActivate: 0
-    enemyLife: 4
 --- !u!1 &1877372587
 GameObject:
   m_ObjectHideFlags: 0
