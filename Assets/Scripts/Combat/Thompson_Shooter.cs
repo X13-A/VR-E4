@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
 
-public class SKS_Shooter : WeaponShooter
+public class Thompson_Shooter : WeaponShooter
 {
     protected override void Shoot()
     {
@@ -18,10 +18,10 @@ public class SKS_Shooter : WeaponShooter
     private void AnimateShot()
     {
         // Sound
-        float pitchVariation = Mathf.Sin(Time.time) * Random.Range(0, 0.15f);
+        float pitchVariation = Mathf.Sin(Time.time) * Random.Range(0, 0.025f);
         PlaySoundEvent soundEvent = new PlaySoundEvent
         {
-            eNameClip = "SKS_shot",
+            eNameClip = "thompson_shot",
             eLoop = false,
             eCanStack = true,
             eDestroyWhenFinished = true,
@@ -51,7 +51,7 @@ public class SKS_Shooter : WeaponShooter
         }
         muzzleFlashCoroutine = StartCoroutine(MuzzleFlash());
     }
-
+    
     private IEnumerator MuzzleFlash()
     {
         muzzleFlashParticles.Stop();
@@ -63,7 +63,7 @@ public class SKS_Shooter : WeaponShooter
 
     private IEnumerator TriggerHapticFeedback()
     {
-        float duration = 0.1f;
+        float duration = 0.05f;
         float amplitude = 1f;
 
         // Find the right hand device

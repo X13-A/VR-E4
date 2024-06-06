@@ -22,6 +22,7 @@ public class AudioManager : Singleton<AudioManager>, IEventHandler
 
     [Header("Guns")]
     [SerializeField] private AudioClip SKS_shot;
+    [SerializeField] private AudioClip thompson_shot;
 
     [Header("Zombie")]
     [SerializeField] private AudioClip spawnZombie;
@@ -48,8 +49,9 @@ public class AudioManager : Singleton<AudioManager>, IEventHandler
     public float MaxMenuVolume => maxMenuVolume;
     public bool Mute => mute;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         /* /!\ Add all audio clips to the dictionary /!\ */
         // TODO: Should use enums here
         audioClips = new Dictionary<string, Tuple<AudioClip, string>>()
@@ -67,6 +69,7 @@ public class AudioManager : Singleton<AudioManager>, IEventHandler
             { "deathZombie1", Tuple.Create(deathZombie1, "gameplay") },
             { "deathZombie2", Tuple.Create(deathZombie2, "gameplay") },
             { "SKS_shot", Tuple.Create(SKS_shot, "gameplay") },
+            { "thompson_shot", Tuple.Create(thompson_shot, "gameplay") },
             { "menu", Tuple.Create(menu, "menu") }
         };
 

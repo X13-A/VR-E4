@@ -14,6 +14,7 @@ public class WeaponShooter : MonoBehaviour
     [SerializeField] protected float range;
     [SerializeField] protected float shootRate;
     [SerializeField] protected WeaponType weaponType;
+    [SerializeField] protected AnimationCurve falloffCurve;
 
     [Header("Function")]
     [SerializeField] protected InputActionAsset inputActionAsset;
@@ -24,6 +25,8 @@ public class WeaponShooter : MonoBehaviour
     [SerializeField] protected ParticleSystem muzzleFlashParticles;
     [SerializeField] protected List<Animation> shootAnimations;
 
+    protected Coroutine hapticFeedbackCoroutine;
+    protected Coroutine muzzleFlashCoroutine;
 
     protected float shootDelay => 1f / shootRate;
     protected float lastShootTime;
@@ -33,7 +36,7 @@ public class WeaponShooter : MonoBehaviour
     protected void Awake()
     {
         shootAction = inputActionAsset.FindActionMap("XRI RightHand Interaction").FindAction("Shoot");
-        shootAction.performed += contex => Shoot();
+        shootAction.performed += context => Shoot();
     }
 
     protected void OnEnable()
@@ -55,5 +58,27 @@ public class WeaponShooter : MonoBehaviour
     protected virtual void Shoot()
     {
         lastShootTime = Time.time;
+    }
+
+    protected virtual void ShootBullet(Vector3 direction)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(barrel.position, direction, out hit, range, LayerMask.GetMask("Enemy")))
+        {
+            Enemy enemy = hit.collider.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                float fallOff = Mathf.Clamp01(falloffCurve.Evaluate(hit.distance / range));
+                enemy.Touch((int)(damage * fallOff));
+            }
+        }
+    }
+
+    private void Update()
+    {
+        if (weaponType == WeaponType.Auto && shootAction.ReadValue<float>() > 0)
+        {
+            Shoot();
+        }
     }
 }

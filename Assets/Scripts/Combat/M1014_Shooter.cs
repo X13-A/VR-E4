@@ -1,27 +1,43 @@
 using SDD.Events;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
 
-public class SKS_Shooter : WeaponShooter
+public class M1014_Shooter : WeaponShooter
 {
+    [SerializeField] private float spreadAngle = 30; // Angle of spread
+
     protected override void Shoot()
     {
         if (!CanShoot()) return;
         base.Shoot();
         AnimateShot();
-        ShootBullet(barrel.forward);
+
+        for (int i = 0; i < 8; i ++)
+        {
+            Vector3 dir = GetRandomDirectionInCone(barrel.forward, spreadAngle);
+            ShootBullet(dir);
+        }
+    }
+
+    private Vector3 GetRandomDirectionInCone(Vector3 forward, float angle)
+    {
+        float radius = Mathf.Tan(Mathf.Deg2Rad * angle / 2f);
+        Vector2 randomPoint = Random.insideUnitCircle * radius;
+        Vector3 direction = forward + new Vector3(randomPoint.x, randomPoint.y, 0);
+        return direction.normalized;
     }
 
     private void AnimateShot()
     {
         // Sound
-        float pitchVariation = Mathf.Sin(Time.time) * Random.Range(0, 0.15f);
+        float pitchVariation = Mathf.Sin(Time.time) * Random.Range(0, 0.025f);
         PlaySoundEvent soundEvent = new PlaySoundEvent
         {
-            eNameClip = "SKS_shot",
+            eNameClip = "thompson_shot",
             eLoop = false,
             eCanStack = true,
             eDestroyWhenFinished = true,
@@ -51,7 +67,7 @@ public class SKS_Shooter : WeaponShooter
         }
         muzzleFlashCoroutine = StartCoroutine(MuzzleFlash());
     }
-
+    
     private IEnumerator MuzzleFlash()
     {
         muzzleFlashParticles.Stop();
@@ -63,7 +79,7 @@ public class SKS_Shooter : WeaponShooter
 
     private IEnumerator TriggerHapticFeedback()
     {
-        float duration = 0.1f;
+        float duration = 0.05f;
         float amplitude = 1f;
 
         // Find the right hand device
@@ -82,4 +98,14 @@ public class SKS_Shooter : WeaponShooter
 
         yield return new WaitForSeconds(duration);
     }
+
+    //private void OnDrawGizmos()
+    //{
+    //    for (int i = 0; i < 8; i++)
+    //    {
+    //        Vector3 dir = GetRandomDirectionInCone(barrel.forward, spreadAngle);
+    //        Gizmos.color = Color.red;
+    //        Gizmos.DrawRay(barrel.position, dir * 10f);
+    //    }
+    //}
 }
