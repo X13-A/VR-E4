@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Enemy : MonoBehaviour, IEventHandler
 {
     [SerializeField] float m_AttackDistance = 2f;
+    [SerializeField] float m_CrawlAttackDistance = 1.2f;
     [SerializeField] float m_Speed = 2f;
     [SerializeField] float m_FastSpeed = 6f;
     [SerializeField] float m_ScreamDistance = 6f;
@@ -101,7 +102,6 @@ public class Enemy : MonoBehaviour, IEventHandler
     {
         canTouch = true;
         willScream = false;
-        Debug.Log("Zombie mode :" + mode);
         if (mode == 0) // Walking Zombie Mode
         {
             SetSpeed(m_Speed);
@@ -148,7 +148,6 @@ public class Enemy : MonoBehaviour, IEventHandler
         if(willScream && distanceToPlayer <= m_ScreamDistance)
         {
             Scream();
-            Debug.Log("Scream");
         }
         else if (!isCrawling && distanceToPlayer <= m_AttackDistance)
         {
@@ -157,7 +156,7 @@ public class Enemy : MonoBehaviour, IEventHandler
             else
                 SetSpeed(0f);
         }
-        else if (isCrawling && distanceToPlayer <= 1.2f)
+        else if (isCrawling && distanceToPlayer <= m_CrawlAttackDistance)
         {
             EventManager.Instance.Raise(new LoseEvent());
         }
@@ -220,7 +219,6 @@ public class Enemy : MonoBehaviour, IEventHandler
         yield return new WaitForSeconds(2f);
         m_Animator.SetBool("isHit1", false);
         m_Animator.SetBool("isHit2", false);
-        Debug.Log("Can Touch !");
         hitCoroutine = null;
         FixRotation();
         PlayGroanSound();
@@ -373,7 +371,6 @@ public class Enemy : MonoBehaviour, IEventHandler
             Hit();
         }
 
-        Debug.Log(hitPoint);
         if (hitPoint != null)
         {
             StartCoroutine(PlayHitParticles(hitPoint.Value));
