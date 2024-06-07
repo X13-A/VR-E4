@@ -88,7 +88,7 @@ public class WeaponShooter : MonoBehaviour
             if (enemy != null)
             {
                 float fallOff = Mathf.Clamp01(falloffCurve.Evaluate(hit.distance / range));
-                enemy.Touch(damage * fallOff);
+                enemy.Touch(damage * fallOff, hit.point);
             }
         }
     }

@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour, IEventHandler
     [SerializeField] float m_FastSpeed = 6f;
     [SerializeField] float m_ScreamDistance = 6f;
 
+    [SerializeField] GameObject hitParticles;
+
     private EnemySpawn m_Spawn;
     private float m_Angle;
     private float m_Life;
@@ -315,7 +317,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         transform.rotation = Quaternion.LookRotation(direction);
     }
 
-    public void Touch(float damage)
+    public void Touch(float damage, Vector3? hitPoint = null)
     {
         m_Life -= damage;
         if(m_Life <= 0)
@@ -327,6 +329,22 @@ public class Enemy : MonoBehaviour, IEventHandler
         {
             Hit();
         }
+
+        Debug.Log(hitPoint);
+        if (hitPoint != null)
+        {
+            StartCoroutine(PlayHitParticles(hitPoint.Value));
+        }
+    }
+
+    private IEnumerator PlayHitParticles(Vector3 hitPoint)
+    {
+        GameObject particlesInstance = Instantiate(hitParticles);
+        particlesInstance.transform.position = hitPoint;
+        particlesInstance.GetComponent<ParticleSystem>().Stop();
+        particlesInstance.GetComponent<ParticleSystem>().Play();
+        yield return new WaitForSeconds(5);
+        Destroy(particlesInstance);
     }
 
     void Pause(GamePauseEvent e)

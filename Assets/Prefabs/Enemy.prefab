@@ -264,6 +264,7 @@ MonoBehaviour:
   m_Speed: 2
   m_FastSpeed: 6
   m_ScreamDistance: 10
+  hitParticles: {fileID: 1834194341294532, guid: b1a8226e76b41ce47b330fae801d0656, type: 3}
   m_Groans:
   - {fileID: 8300000, guid: ab55115f8c2d4cf4e86dd243f959002c, type: 3}
   - {fileID: 8300000, guid: ce07becc6ca109a49bb167216f9a035e, type: 3}
