@@ -68,7 +68,6 @@ public class Enemy : MonoBehaviour, IEventHandler
     void OnDisable()
     {
         UnsubscribeEvents();
-
     }
 
     void SetSpeed(float speed)

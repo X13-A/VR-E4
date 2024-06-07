@@ -2833,7 +2833,7 @@ PrefabInstance:
       objectReference: {fileID: 2144625694}
     - target: {fileID: 3141072678664599509, guid: 4fb1944c61d48af43a2d1b870dfddc0a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayButtonHasBeenClicked
+      value: PlayIntroductionButtonHasBeenClicked
       objectReference: {fileID: 0}
     - target: {fileID: 4198013510150462609, guid: 4fb1944c61d48af43a2d1b870dfddc0a, type: 3}
       propertyPath: m_IsActive

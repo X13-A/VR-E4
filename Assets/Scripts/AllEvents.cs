@@ -49,6 +49,9 @@ public class LoadLevelEvent : SDD.Events.Event
 public class PlayButtonClickedEvent : SDD.Events.Event
 {
 }
+public class PlayIntroductionButtonClickedEvent : SDD.Events.Event
+{
+}
 public class ReplayButtonClickedEvent : SDD.Events.Event
 {
 }
