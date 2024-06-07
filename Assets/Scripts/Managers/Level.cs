@@ -14,12 +14,12 @@ public class Level
     public float deltaspawnInterval;
     public float angleStep;  // Intervalle d'angle en degrés
     public bool readAngleActivate;
-    public int enemyLife;
+    public float enemyLife;
 
 
     // Constructeur de la classe Level
     public Level(int nWalkingEnemy, int nFastEnemy, bool screamingEnemy, GameObject enemy, float spawnRadius, float spawnInterval
-        , float deltaSpawnInterval, float angleStep, bool readAngleActivate, int enemyLife)
+        , float deltaSpawnInterval, float angleStep, bool readAngleActivate, float enemyLife)
     {
         this.nFastEnemy = nFastEnemy;
         this.enemy = enemy;

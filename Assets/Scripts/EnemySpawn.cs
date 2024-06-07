@@ -18,7 +18,7 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
     private float angleStep;  // Intervalle d'angle en degrés
     private bool readAngleActivate;
     private List<float> availableAngles;
-    private int enemyLife;
+    private float enemyLife;
     private int nNotDeadEnemy;
 
     public void SubscribeEvents()

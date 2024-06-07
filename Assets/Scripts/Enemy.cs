@@ -12,8 +12,8 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     private EnemySpawn m_Spawn;
     private float m_Angle;
-    private int m_Life;
-    private int m_MaxLife;
+    private float m_Life;
+    private float m_MaxLife;
     private bool canTouch;
     private bool canAttack;
     private bool willScream;
@@ -87,7 +87,7 @@ public class Enemy : MonoBehaviour, IEventHandler
             m_Death = m_Deaths[Random.Range(0, m_Deaths.Count)];
     }
 
-    public void Initialize(EnemySpawn spawn, float angle, int mode, bool willCrawl, int life)
+    public void Initialize(EnemySpawn spawn, float angle, int mode, bool willCrawl, float life)
     {
         canTouch = true;
         willScream = false;
@@ -315,11 +315,12 @@ public class Enemy : MonoBehaviour, IEventHandler
         transform.rotation = Quaternion.LookRotation(direction);
     }
 
-    public void Touch(int damage)
+    public void Touch(float damage)
     {
         m_Life -= damage;
         if(m_Life <= 0)
         {
+            m_Life = 0;
             Die();
         }
         else
