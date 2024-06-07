@@ -94,7 +94,7 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
                 {
                     Spawn();
                     float randomFloat = Random.Range(-deltaspawnInterval, deltaspawnInterval);
-                    yield return new WaitForSeconds(spawnInterval + deltaspawnInterval);
+                    yield return new WaitForSeconds(spawnInterval + randomFloat);
                 }
                 else
                 {

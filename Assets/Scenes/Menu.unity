@@ -3302,14 +3302,6 @@ MonoBehaviour:
   switch_gun2: {fileID: 8300000, guid: 69da65b53e1188440aa4e7916da2b068, type: 3}
   switch_gun3: {fileID: 8300000, guid: fda35b46908afe1438b4c29d8152e388, type: 3}
   outOfAmmo: {fileID: 8300000, guid: 044e8e5ed3dea51488655af4117fd8e3, type: 3}
-  spawnZombie: {fileID: 8300000, guid: fcb3328a01fd3ff4ca595820e43102b2, type: 3}
-  hitZombie: {fileID: 8300000, guid: 50f46479c84a00640af451ae05d355ab, type: 3}
-  groanZombie1: {fileID: 8300000, guid: ab55115f8c2d4cf4e86dd243f959002c, type: 3}
-  groanZombie2: {fileID: 8300000, guid: ce07becc6ca109a49bb167216f9a035e, type: 3}
-  groanZombie3: {fileID: 8300000, guid: f18bc6a956a3c27468e4b1edaa28c3b0, type: 3}
-  groanZombie4: {fileID: 8300000, guid: 14d2297d50a1cb245ac86808ade65327, type: 3}
-  deathZombie1: {fileID: 8300000, guid: abcd2da77204ad141b0faf74ded3f417, type: 3}
-  deathZombie2: {fileID: 8300000, guid: bb32357e332a02a4c97c8cd5b24fbea9, type: 3}
   maxMenuVolume: 1
   menu: {fileID: 8300000, guid: 223eb4324ecd11343841b88ef5a78c0b, type: 3}
 --- !u!1 &1842718299
@@ -3495,7 +3487,7 @@ MonoBehaviour:
     spawnRadius: 20
     spawnInterval: 1
     deltaspawnInterval: 0.5
-    angleStep: 180
+    angleStep: 50
     readAngleActivate: 0
     enemyLife: 2
 --- !u!1 &1898283472
