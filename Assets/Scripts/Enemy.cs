@@ -225,7 +225,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_Animator.SetBool("isScreaming", true);
         screamCoroutine = StartCoroutine(WaitScream());
         PlaySound(m_ScreamSound);
-        m_audiSource.volumee = 1f;
+        m_audiSource.volume = 1f;
     }
 
     private IEnumerator WaitScream()
@@ -415,23 +415,24 @@ public class Enemy : MonoBehaviour, IEventHandler
         Destroy(gameObject);
     }
 
-    void PlaySound(AudioClip audio)
+    void PlaySound(AudioClip audio, bool groan = false)
     {
+        if (!groan && groanSoundCoroutine != null)
+        {
+            StopCoroutine(groanSoundCoroutine);
+            groanSoundCoroutine = null;
+        }
+
         m_audiSource.Stop();
         m_audiSource.clip = audio;
         m_audiSource.loop = false;
         m_audiSource.Play();
     }
 
-    void PlayRandomSound(List<AudioClip> audios, bool groan=false)
+    void PlayRandomSound(List<AudioClip> audios, bool groan = false)
     {
         int i = Random.Range(0, audios.Count);
-        if (!groan && groanSoundCoroutine != null)
-        {
-            StopCoroutine(groanSoundCoroutine);
-            groanSoundCoroutine = null;
-        }
-        PlaySound(audios[i]);
+        PlaySound(audios[i], groan);
     }
 
     private void PlayGroanSound(List <AudioClip> groans = null, float dtMin = -1f, float dtMax = -1f)
@@ -454,6 +455,7 @@ public class Enemy : MonoBehaviour, IEventHandler
     private IEnumerator GroanSound()
     {
         float dt = Random.Range(dtMinGroan, dtMaxGroan);
+        PlayRandomSound(m_CurrentGroans, true);
         while (true)
         {          
             yield return new WaitForSeconds(dt);
