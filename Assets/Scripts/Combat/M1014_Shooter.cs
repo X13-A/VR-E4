@@ -37,7 +37,7 @@ public class M1014_Shooter : WeaponShooter
         float pitchVariation = Mathf.Sin(Time.time) * Random.Range(0, 0.025f);
         PlaySoundEvent soundEvent = new PlaySoundEvent
         {
-            eNameClip = "thompson_shot",
+            eNameClip = "m1014_shot",
             eLoop = false,
             eCanStack = true,
             eDestroyWhenFinished = true,

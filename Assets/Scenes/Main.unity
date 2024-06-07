@@ -1647,6 +1647,7 @@ MonoBehaviour:
   winGame: {fileID: 8300000, guid: 4d1b5dba8adf9e84ba8ada673127b3b4, type: 3}
   SKS_shot: {fileID: 8300000, guid: b57e13e5ec3b2514bb80f6480a8d3b8a, type: 3}
   thompson_shot: {fileID: 8300000, guid: c2635e0be7846024c9f0ddbaaca52837, type: 3}
+  m1014_shot: {fileID: 8300000, guid: 6514a1586e916784180367acce321051, type: 3}
   spawnZombie: {fileID: 8300000, guid: fcb3328a01fd3ff4ca595820e43102b2, type: 3}
   hitZombie: {fileID: 8300000, guid: 50f46479c84a00640af451ae05d355ab, type: 3}
   groanZombie1: {fileID: 8300000, guid: ab55115f8c2d4cf4e86dd243f959002c, type: 3}
@@ -2116,7 +2117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3623674414342659443, guid: 21e0d4dbc51387a49b7e4b38846937be, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.461
+      value: 0.498
       objectReference: {fileID: 0}
     - target: {fileID: 3623674414342659443, guid: 21e0d4dbc51387a49b7e4b38846937be, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2156,7 +2157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8502556532198170707, guid: 21e0d4dbc51387a49b7e4b38846937be, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8506446898847107033, guid: 21e0d4dbc51387a49b7e4b38846937be, type: 3}
       propertyPath: leftHand
@@ -2264,7 +2265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4169762851554547473, guid: a0cd2658c4cd5e44f83d207871c1d74d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.461
+      value: 1.053
       objectReference: {fileID: 0}
     - target: {fileID: 4169762851554547473, guid: a0cd2658c4cd5e44f83d207871c1d74d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2312,7 +2313,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7992912639529428532, guid: a0cd2658c4cd5e44f83d207871c1d74d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
