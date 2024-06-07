@@ -54,6 +54,11 @@ public class MenuManager : MonoBehaviour, IEventHandler
         EventManager.Instance.Raise(new PlayButtonClickedEvent());
     }
 
+    public void PlayIntroductionButtonHasBeenClicked()
+    {
+        EventManager.Instance.Raise(new PlayIntroductionButtonClickedEvent());
+    }
+
     public void ScoreButtonHasBeenClicked()
     {
         Score();

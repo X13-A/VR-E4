@@ -29,16 +29,6 @@ public class AudioManager : Singleton<AudioManager>, IEventHandler
     [SerializeField] private AudioClip switch_gun3;
     [SerializeField] private AudioClip outOfAmmo;
 
-    [Header("Zombie")]
-    [SerializeField] private AudioClip spawnZombie;
-    [SerializeField] private AudioClip hitZombie;
-    [SerializeField] private AudioClip groanZombie1;
-    [SerializeField] private AudioClip groanZombie2;
-    [SerializeField] private AudioClip groanZombie3;
-    [SerializeField] private AudioClip groanZombie4;
-    [SerializeField] private AudioClip deathZombie1;
-    [SerializeField] private AudioClip deathZombie2;
-
     [Header("Music")]
     [SerializeField] private float maxMenuVolume = 1;
     [SerializeField] private AudioClip menu;
@@ -65,14 +55,6 @@ public class AudioManager : Singleton<AudioManager>, IEventHandler
             { "maxAmmo", Tuple.Create(maxAmmo, "gameplay") },
             { "loseGame", Tuple.Create(loseGame, "gameplay") },
             { "winGame", Tuple.Create(winGame, "gameplay") },
-            { "spawnZombie", Tuple.Create(spawnZombie, "gameplay") },
-            { "hitZombie", Tuple.Create(hitZombie, "gameplay") },
-            { "groanZombie1", Tuple.Create(groanZombie1, "gameplay") },
-            { "groanZombie2", Tuple.Create(groanZombie2, "gameplay") },
-            { "groanZombie3", Tuple.Create(groanZombie3, "gameplay") },
-            { "groanZombie4", Tuple.Create(groanZombie4, "gameplay") },
-            { "deathZombie1", Tuple.Create(deathZombie1, "gameplay") },
-            { "deathZombie2", Tuple.Create(deathZombie2, "gameplay") },
             { "SKS_shot", Tuple.Create(SKS_shot, "gameplay") },
             { "thompson_shot", Tuple.Create(thompson_shot, "gameplay") },
             { "m1014_shot", Tuple.Create(m1014_shot, "gameplay") },

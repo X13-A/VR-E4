@@ -5,7 +5,7 @@ using SDD.Events;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 
-public enum GAMESTATE { menu, play, pause, victory, gameover }
+public enum GAMESTATE { menu, play, pause, victory, gameover, introduction }
 public delegate void afterFunction();
 
 public class GameManager : MonoBehaviour, IEventHandler
@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour, IEventHandler
     public void SubscribeEvents()
     {
         EventManager.Instance.AddListener<PlayButtonClickedEvent>(Play);
+        EventManager.Instance.AddListener<PlayIntroductionButtonClickedEvent>(PlayIntroduction);
         EventManager.Instance.AddListener<ReplayButtonClickedEvent>(Replay);
         EventManager.Instance.AddListener<MenuButtonClickedEvent>(Menu);
         EventManager.Instance.AddListener<FinishAllLevelEvent>(Win);
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour, IEventHandler
     public void UnsubscribeEvents()
     {
         EventManager.Instance.RemoveListener<PlayButtonClickedEvent>(Play);
+        EventManager.Instance.RemoveListener<PlayIntroductionButtonClickedEvent>(PlayIntroduction);
         EventManager.Instance.RemoveListener<ReplayButtonClickedEvent>(Replay);
         EventManager.Instance.RemoveListener<MenuButtonClickedEvent>(Menu);
         EventManager.Instance.RemoveListener<FinishAllLevelEvent>(Win);
@@ -71,6 +73,8 @@ public class GameManager : MonoBehaviour, IEventHandler
                 EventManager.Instance.Raise(new GamePauseEvent());
                 EventManager.Instance.Raise(new SoundMixAllEvent() { eGameplayVolume = 0 });
                 break;
+            case GAMESTATE.introduction:
+                break;
         }
     }
 
@@ -89,9 +93,19 @@ public class GameManager : MonoBehaviour, IEventHandler
         SetState(GAMESTATE.play);
     }
 
+    void Introduction()
+    {
+        SetState(GAMESTATE.introduction);
+    }
+
     void Play(PlayButtonClickedEvent e)
     {
         StartCoroutine(LoadSceneThenFunction(1, Play));
+    }
+
+    void PlayIntroduction(PlayIntroductionButtonClickedEvent e)
+    {
+        StartCoroutine(LoadSceneThenFunction(3, Introduction));
     }
 
     void Replay(ReplayButtonClickedEvent e)
@@ -136,9 +150,9 @@ public class GameManager : MonoBehaviour, IEventHandler
         EventManager.Instance.Raise(new SoundMixAllEvent() { eGameplayVolume = 1 });
     }
 
-    private IEnumerator LoadSceneThenFunction(int sceneIndex, afterFunction function)
+    private IEnumerator LoadSceneThenFunction(int? sceneIndex, afterFunction function)
     {
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync((int)sceneIndex);
         // Attendre que la scène soit chargée
         while (!asyncOperation.isDone)
         {
