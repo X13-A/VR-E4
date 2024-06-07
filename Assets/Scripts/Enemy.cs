@@ -131,14 +131,17 @@ public class Enemy : MonoBehaviour, IEventHandler
     void FixedUpdate()
     {
         float distanceToPlayer = DistanceXZ(m_Spawn.transform.position, transform.position);
-        float volumeEntry = distanceToPlayer / 20f;
-        if (volumeEntry > 1)
+        if (screamCoroutine == null)
         {
-            m_audiSource.volume = 0;
-        }
-        else
-        {
-            m_audiSource.volume = m_DistanceVolume.Evaluate(distanceToPlayer / 20f);
+            float volumeEntry = distanceToPlayer / 20f;
+            if (volumeEntry > 1)
+            {
+                m_audiSource.volume = 0;
+            }
+            else
+            {
+                m_audiSource.volume = m_DistanceVolume.Evaluate(distanceToPlayer / 20f);
+            }
         }
         if(willScream && distanceToPlayer <= m_ScreamDistance)
         {
@@ -222,10 +225,12 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_Animator.SetBool("isScreaming", true);
         screamCoroutine = StartCoroutine(WaitScream());
         PlaySound(m_ScreamSound);
+        m_audiSource.volumee = 1f
     }
 
     private IEnumerator WaitScream()
     {
+        m_audiSource.volume = 1f;
         yield return new WaitForSeconds(1.15f);
         m_Animator.speed = 0.25f;
         SetSpeed(m_Speed);
@@ -424,6 +429,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         if (!groan && groanSoundCoroutine != null)
         {
             StopCoroutine(groanSoundCoroutine);
+            groanSoundCoroutine = null;
         }
         PlaySound(audios[i]);
     }
