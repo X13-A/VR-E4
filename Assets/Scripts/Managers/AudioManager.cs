@@ -200,8 +200,11 @@ public class AudioManager : Singleton<AudioManager>, IEventHandler
     /// </summary>
     private IEnumerator DestroyAfterPlaying(AudioSource audioSource)
     {
-        yield return new WaitWhile(() => audioSource.isPlaying);
-        Destroy(audioSource.gameObject);
+        yield return new WaitWhile(() => audioSource != null && audioSource.isPlaying);
+        if (audioSource != null)
+        {
+            Destroy(audioSource.gameObject);
+        }
     }
 
     Transform GetExistingClip(string name)
