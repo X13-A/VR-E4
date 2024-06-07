@@ -138,3 +138,11 @@ public class UpdateScoresTextEvent : SDD.Events.Event
 {
 }
 #endregion
+
+#region Weapon events
+
+public class ShootEvent : SDD.Events.Event
+{
+}
+
+#endregion

@@ -384,6 +384,11 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &264401751 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7992912639529428532, guid: a0cd2658c4cd5e44f83d207871c1d74d, type: 3}
+  m_PrefabInstance: {fileID: 7470105354308515396}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &413009152
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,6 +438,11 @@ AudioListener:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4696659223953188572, guid: 04be0e76b6b551c4fb406a61334cf1b9, type: 3}
   m_PrefabInstance: {fileID: 6886486526088196255}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &476156089 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8502556532198170707, guid: 21e0d4dbc51387a49b7e4b38846937be, type: 3}
+  m_PrefabInstance: {fileID: 3184257483298568204}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &536748805
 GameObject:
@@ -1648,6 +1658,9 @@ MonoBehaviour:
   SKS_shot: {fileID: 8300000, guid: b57e13e5ec3b2514bb80f6480a8d3b8a, type: 3}
   thompson_shot: {fileID: 8300000, guid: c2635e0be7846024c9f0ddbaaca52837, type: 3}
   m1014_shot: {fileID: 8300000, guid: 6514a1586e916784180367acce321051, type: 3}
+  switch_gun1: {fileID: 8300000, guid: 818072fe92c6c454aaea94e16668d32e, type: 3}
+  switch_gun2: {fileID: 8300000, guid: 69da65b53e1188440aa4e7916da2b068, type: 3}
+  switch_gun3: {fileID: 8300000, guid: fda35b46908afe1438b4c29d8152e388, type: 3}
   spawnZombie: {fileID: 8300000, guid: fcb3328a01fd3ff4ca595820e43102b2, type: 3}
   hitZombie: {fileID: 8300000, guid: 50f46479c84a00640af451ae05d355ab, type: 3}
   groanZombie1: {fileID: 8300000, guid: ab55115f8c2d4cf4e86dd243f959002c, type: 3}
@@ -2033,6 +2046,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_StartingHoverFilters: []
   m_StartingSelectFilters: []
+--- !u!1 &2075683054 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3666065152250637921, guid: 04be0e76b6b551c4fb406a61334cf1b9, type: 3}
+  m_PrefabInstance: {fileID: 6886486526088196255}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2122852517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2103,6 +2121,56 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5686134208185136530, guid: 1fd3a7c43c8190f4d8c167ebde694364, type: 3}
   m_PrefabInstance: {fileID: 2122852517}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2126220008
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2126220010}
+  - component: {fileID: 2126220009}
+  m_Layer: 0
+  m_Name: WeaponManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2126220009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126220008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2daf77a56acf34bba1ebb7c8e5fa0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons:
+  - {fileID: 2075683054}
+  - {fileID: 476156089}
+  - {fileID: 264401751}
+  ammunitions: 12000000780000000c000000
+  inputActionAsset: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+--- !u!4 &2126220010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126220008}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.10681, y: 1.0019821, z: 0.3353055}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3184257483298568204
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2313,7 +2381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7992912639529428532, guid: a0cd2658c4cd5e44f83d207871c1d74d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2329,3 +2397,4 @@ SceneRoots:
   - {fileID: 1930613165}
   - {fileID: 1140080203}
   - {fileID: 1611734663}
+  - {fileID: 2126220010}

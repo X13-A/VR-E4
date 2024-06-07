@@ -24,6 +24,9 @@ public class AudioManager : Singleton<AudioManager>, IEventHandler
     [SerializeField] private AudioClip SKS_shot;
     [SerializeField] private AudioClip thompson_shot;
     [SerializeField] private AudioClip m1014_shot;
+    [SerializeField] private AudioClip switch_gun1;
+    [SerializeField] private AudioClip switch_gun2;
+    [SerializeField] private AudioClip switch_gun3;
 
     [Header("Zombie")]
     [SerializeField] private AudioClip spawnZombie;
@@ -72,6 +75,9 @@ public class AudioManager : Singleton<AudioManager>, IEventHandler
             { "SKS_shot", Tuple.Create(SKS_shot, "gameplay") },
             { "thompson_shot", Tuple.Create(thompson_shot, "gameplay") },
             { "m1014_shot", Tuple.Create(m1014_shot, "gameplay") },
+            { "switch_gun1", Tuple.Create(switch_gun1, "gameplay") },
+            { "switch_gun2", Tuple.Create(switch_gun2, "gameplay") },
+            { "switch_gun3", Tuple.Create(switch_gun3, "gameplay") },
             { "menu", Tuple.Create(menu, "menu") }
         };
 

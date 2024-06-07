@@ -36,28 +36,34 @@ public class WeaponShooter : MonoBehaviour
     protected void Awake()
     {
         shootAction = inputActionAsset.FindActionMap("XRI RightHand Interaction").FindAction("Shoot");
-        shootAction.performed += context => Shoot();
     }
 
     protected void OnEnable()
     {
+        shootAction.performed += OnShootPerformed;
         shootAction.Enable();
     }
 
     protected void OnDisable()
     {
-        shootAction.performed -= ctx => Shoot();
+        shootAction.performed -= OnShootPerformed;
         shootAction.Disable();
+    }
+
+    private void OnShootPerformed(InputAction.CallbackContext context)
+    {
+        Shoot();
     }
 
     protected virtual bool CanShoot()
     {
-        return Time.time - lastShootTime > shootDelay;
+        return WeaponManager.Instance.CanShoot && Time.time - lastShootTime > shootDelay;
     }
 
     protected virtual void Shoot()
     {
         lastShootTime = Time.time;
+        EventManager.Instance.Raise(new ShootEvent());
     }
 
     protected virtual void ShootBullet(Vector3 direction)
@@ -69,7 +75,7 @@ public class WeaponShooter : MonoBehaviour
             if (enemy != null)
             {
                 float fallOff = Mathf.Clamp01(falloffCurve.Evaluate(hit.distance / range));
-                enemy.Touch((int)(damage * fallOff));
+                enemy.Touch(damage * fallOff);
             }
         }
     }
