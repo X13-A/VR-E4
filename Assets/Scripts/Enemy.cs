@@ -318,6 +318,8 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     public void Touch(float damage, Vector3? hitPoint = null)
     {
+        if (!canTouch) return;
+
         m_Life -= damage;
         if(m_Life <= 0)
         {
