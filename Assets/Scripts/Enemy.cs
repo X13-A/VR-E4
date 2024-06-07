@@ -225,7 +225,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_Animator.SetBool("isScreaming", true);
         screamCoroutine = StartCoroutine(WaitScream());
         PlaySound(m_ScreamSound);
-        m_audiSource.volumee = 1f
+        m_audiSource.volumee = 1f;
     }
 
     private IEnumerator WaitScream()
