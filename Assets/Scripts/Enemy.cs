@@ -30,15 +30,24 @@ public class Enemy : MonoBehaviour, IEventHandler
     private Coroutine screamCoroutine;
     private Coroutine standUpCoroutine;
     private Coroutine crawlCoroutine;
+    private Coroutine groanSoundCoroutine;
     private Rigidbody m_Rigidbody;
 
     private AudioSource m_audiSource;
-    private AudioClip m_Groan;
-    private AudioClip m_Death;
+    private List<AudioClip> m_CurrentGroans = new List<AudioClip>();
+    private float dtMinGroan;
+    private float dtMaxGroan;
+
+    [SerializeField] AnimationCurve m_DistanceVolume;
     [SerializeField] List<AudioClip> m_Groans;
-    [SerializeField] List<AudioClip> m_Deaths;
-    [SerializeField] AudioClip m_Hit;
-    [SerializeField] AudioClip m_Runner;
+    [SerializeField] List<AudioClip> m_SprintGroans;
+    [SerializeField] List<AudioClip> m_ScreamerGroans;
+    [SerializeField] List<AudioClip> m_CrawlGroans;
+    [SerializeField] List<AudioClip> m_Attacks;
+    [SerializeField] AudioClip m_HitSound;
+    [SerializeField] AudioClip m_ScreamSound;
+    [SerializeField] AudioClip m_DeathSound1;
+    [SerializeField] AudioClip m_DeathSound2;
 
 
 
@@ -49,6 +58,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         EventManager.Instance.AddListener<GamePauseEvent>(Pause);
         EventManager.Instance.AddListener<GameResumeEvent>(Resume);
         EventManager.Instance.AddListener<ScreamEvent>(StandUp);
+        EventManager.Instance.AddListener<AttackEvent>(PlayerAttacked);
     }
 
     public void UnsubscribeEvents()
@@ -58,6 +68,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         EventManager.Instance.RemoveListener<GamePauseEvent>(Pause);
         EventManager.Instance.RemoveListener<GameResumeEvent>(Resume);
         EventManager.Instance.RemoveListener<ScreamEvent>(StandUp);
+        EventManager.Instance.RemoveListener<AttackEvent>(PlayerAttacked);
     }
 
     void OnEnable()
@@ -82,10 +93,6 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_DeathCollider = GetComponent<BoxCollider>();
         m_StandCollider = GetComponent<CapsuleCollider>();
         m_audiSource = GetComponent<AudioSource>();
-        if(m_Groans.Count>0)
-            m_Groan = m_Groans[Random.Range(0, m_Groans.Count)];
-        if(m_Deaths.Count > 0)
-            m_Death = m_Deaths[Random.Range(0, m_Deaths.Count)];
     }
 
     public void Initialize(EnemySpawn spawn, float angle, int mode, bool willCrawl, float life)
@@ -96,17 +103,20 @@ public class Enemy : MonoBehaviour, IEventHandler
         if (mode == 0) // Walking Zombie Mode
         {
             SetSpeed(m_Speed);
+            PlayGroanSound(m_Groans,4f,8f);
+
         }
         else if(mode == 1) // Fast Zombie Mode
         {
             SetSpeed(m_FastSpeed);
+            PlayGroanSound(m_SprintGroans, 2f, 4f);
         }
         else
         {
             canTouch = false;
             willScream = true;
             SetSpeed(m_FastSpeed);
-
+            PlayGroanSound(m_ScreamerGroans, 2f, 4f);
         }
 
         this.willCrawl = willCrawl;
@@ -116,22 +126,31 @@ public class Enemy : MonoBehaviour, IEventHandler
         canAttack = true;
         m_Life = life;
         m_MaxLife = life;
-        m_audiSource.clip = m_Groan;
-        m_audiSource.loop = true;
-        m_audiSource.Play();
     }
 
     void FixedUpdate()
     {
         float distanceToPlayer = DistanceXZ(m_Spawn.transform.position, transform.position);
+        float volumeEntry = distanceToPlayer / 20f;
+        if (volumeEntry > 1)
+        {
+            m_audiSource.volume = 0;
+        }
+        else
+        {
+            m_audiSource.volume = m_DistanceVolume.Evaluate(distanceToPlayer / 20f);
+        }
         if(willScream && distanceToPlayer <= m_ScreamDistance)
         {
             Scream();
             Debug.Log("Scream");
         }
-        else if (canAttack & distanceToPlayer <= m_AttackDistance)
+        else if (distanceToPlayer <= m_AttackDistance)
         {
-            Attack();
+            if (canAttack)
+                Attack();
+            else
+                SetSpeed(0f);
         }
     }
 
@@ -148,6 +167,16 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_Animator.SetTrigger("isAttacking");
         canAttack = false;
         attackCoroutine = StartCoroutine(WaitAttack());
+        PlayRandomSound(m_Attacks);
+    }
+
+    void PlayerAttacked(AttackEvent e)
+    {
+        if (attackCoroutine == null)
+        {
+            m_audiSource.volume = 0f;
+            canAttack = false;
+        }
     }
 
     void StandUp()
@@ -158,6 +187,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_DeathCollider.enabled = true;
         m_Rigidbody.useGravity = true;
         m_Life = m_MaxLife;
+        PlayRandomSound(m_Groans);
     }
 
     void StandUp(ScreamEvent e)
@@ -177,19 +207,13 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     private IEnumerator WaitHit()
     {
-        m_audiSource.Stop();
-        m_audiSource.clip = m_Hit;
-        m_audiSource.loop = false;
-        m_audiSource.Play();
         yield return new WaitForSeconds(2f);
-        m_audiSource.clip = m_Groan;
-        m_audiSource.loop = true;
-        m_audiSource.Play();
         m_Animator.SetBool("isHit1", false);
         m_Animator.SetBool("isHit2", false);
         Debug.Log("Can Touch !");
         hitCoroutine = null;
         FixRotation();
+        PlayGroanSound();
     }
 
     void Scream()
@@ -197,6 +221,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         willScream = false;
         m_Animator.SetBool("isScreaming", true);
         screamCoroutine = StartCoroutine(WaitScream());
+        PlaySound(m_ScreamSound);
     }
 
     private IEnumerator WaitScream()
@@ -212,15 +237,12 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_Animator.SetBool("isScreaming", false);
         screamCoroutine = null;
         canTouch = true;
+        PlayGroanSound();
 
     }
 
     private IEnumerator WaitDie()
     {
-        m_audiSource.Stop();
-        m_audiSource.clip = m_Death;
-        m_audiSource.loop = false;
-        m_audiSource.Play();
         yield return new WaitForSeconds(2.5f);
         //DestroyEnemy();
         dieCoroutine = null;
@@ -242,6 +264,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_Animator.SetBool("isStandingUp", false);
         canTouch = true;
         standUpCoroutine = null;
+        PlayGroanSound();
     }
 
     private IEnumerator WaitCrawl()
@@ -251,6 +274,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_Animator.SetBool("isCrawling", true);
         canTouch = true;
         m_Life = 1;
+        PlayGroanSound(m_CrawlGroans,4f,8f);
     }
 
     public static float DistanceXZ(Vector3 a, Vector3 b)
@@ -264,12 +288,14 @@ public class Enemy : MonoBehaviour, IEventHandler
         canTouch = false;
         if (willCrawl)
         {
+            PlaySound(m_DeathSound2);
             m_Animator.SetTrigger("isDying2");
             willCrawl = false;
             crawlCoroutine = StartCoroutine(WaitCrawl());
         }
         else
         {
+            PlaySound(m_DeathSound1);
             m_Animator.SetTrigger("isDying");
             dieCoroutine = StartCoroutine(WaitDie());
         }
@@ -305,7 +331,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         {
             m_Animator.SetBool("isHit1", true);
         }
-
+        PlaySound(m_HitSound);
         hitCoroutine = StartCoroutine(WaitHit());
     }
 
@@ -377,6 +403,55 @@ public class Enemy : MonoBehaviour, IEventHandler
         {
             StopCoroutine(attackCoroutine);
         }
+        if (groanSoundCoroutine != null)
+        {
+            StopCoroutine(groanSoundCoroutine);
+        }
         Destroy(gameObject);
+    }
+
+    void PlaySound(AudioClip audio)
+    {
+        m_audiSource.Stop();
+        m_audiSource.clip = audio;
+        m_audiSource.loop = false;
+        m_audiSource.Play();
+    }
+
+    void PlayRandomSound(List<AudioClip> audios, bool groan=false)
+    {
+        int i = Random.Range(0, audios.Count);
+        if (!groan && groanSoundCoroutine != null)
+        {
+            StopCoroutine(groanSoundCoroutine);
+        }
+        PlaySound(audios[i]);
+    }
+
+    private void PlayGroanSound(List <AudioClip> groans = null, float dtMin = -1f, float dtMax = -1f)
+    {
+        if(groans != null)
+            m_CurrentGroans = groans;
+        if(dtMin >= 0)
+            dtMinGroan = dtMin;
+        if(dtMax >= 0)
+            dtMaxGroan = dtMax;
+        if (groanSoundCoroutine != null)
+        {
+            StopCoroutine(groanSoundCoroutine);
+        }
+
+        groanSoundCoroutine = StartCoroutine(GroanSound());
+    }
+
+
+    private IEnumerator GroanSound()
+    {
+        float dt = Random.Range(dtMinGroan, dtMaxGroan);
+        while (true)
+        {          
+            yield return new WaitForSeconds(dt);
+            PlayRandomSound(m_CurrentGroans,true);
+        }
     }
 }

@@ -221,16 +221,57 @@ MonoBehaviour:
   m_FastSpeed: 6
   m_ScreamDistance: 10
   hitParticles: {fileID: 1834194341294532, guid: b1a8226e76b41ce47b330fae801d0656, type: 3}
+  m_DistanceVolume:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.85
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0.05
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   m_Groans:
-  - {fileID: 8300000, guid: ab55115f8c2d4cf4e86dd243f959002c, type: 3}
-  - {fileID: 8300000, guid: ce07becc6ca109a49bb167216f9a035e, type: 3}
-  - {fileID: 8300000, guid: f18bc6a956a3c27468e4b1edaa28c3b0, type: 3}
-  - {fileID: 8300000, guid: 14d2297d50a1cb245ac86808ade65327, type: 3}
-  m_Deaths:
-  - {fileID: 8300000, guid: abcd2da77204ad141b0faf74ded3f417, type: 3}
-  - {fileID: 8300000, guid: bb32357e332a02a4c97c8cd5b24fbea9, type: 3}
-  m_Hit: {fileID: 8300000, guid: 50f46479c84a00640af451ae05d355ab, type: 3}
-  m_Runner: {fileID: 8300000, guid: 2bda29d0bb9613c4bb48aa7fa16146bd, type: 3}
+  - {fileID: 8300000, guid: c54a8af68c4fbc5489dcf74fb00e25ae, type: 3}
+  - {fileID: 8300000, guid: 98b1654a67109774298a4670032c42ea, type: 3}
+  - {fileID: 8300000, guid: aedaf25e93200d140b1a59e888bd4431, type: 3}
+  - {fileID: 8300000, guid: 88d358cfe5b416548bcada32c80c3f9f, type: 3}
+  m_SprintGroans:
+  - {fileID: 8300000, guid: 0ab49521b38056b429f66d5bef98b78d, type: 3}
+  - {fileID: 8300000, guid: 862745e12f8ca5d4587dc50cb68c140e, type: 3}
+  m_ScreamerGroans:
+  - {fileID: 8300000, guid: 9162d484e7ddaf34287868f14d485a77, type: 3}
+  - {fileID: 8300000, guid: fbef10068ef30ef419737f3fc5383fb8, type: 3}
+  m_CrawlGroans:
+  - {fileID: 8300000, guid: 8dec418b29d2af44893bee0384b7d59e, type: 3}
+  - {fileID: 8300000, guid: 9d8b4b3fc559a3e4f8e6f8fdccb73998, type: 3}
+  - {fileID: 8300000, guid: f9dc3a54c264ba34ead9b764ab4342de, type: 3}
+  m_Attacks:
+  - {fileID: 8300000, guid: 59c1f9798202662429830c181a660b5c, type: 3}
+  - {fileID: 8300000, guid: 136b725ad43379244a81d297104b7154, type: 3}
+  - {fileID: 8300000, guid: 3c7166dbf489de04385807e08f597c98, type: 3}
+  - {fileID: 8300000, guid: fef08f074467f244885084f0b01e1f6a, type: 3}
+  - {fileID: 8300000, guid: 371c76d0374b4ad4da7dd2f33ea9a401, type: 3}
+  - {fileID: 8300000, guid: 71169306b5011a64c8ea2f82e4284952, type: 3}
+  - {fileID: 8300000, guid: 3e8a7217c3957be45a872c4ab55b30f5, type: 3}
+  m_HitSound: {fileID: 8300000, guid: c69e486436075744b8a00430bd10739f, type: 3}
+  m_ScreamSound: {fileID: 8300000, guid: 2bda29d0bb9613c4bb48aa7fa16146bd, type: 3}
+  m_DeathSound1: {fileID: 8300000, guid: bfcbec815583b934694ee9321800fcc6, type: 3}
+  m_DeathSound2: {fileID: 8300000, guid: 8a115bf3ba06e9a4aac0f52dc17c737f, type: 3}
 --- !u!54 &8136104391238739702
 Rigidbody:
   m_ObjectHideFlags: 0

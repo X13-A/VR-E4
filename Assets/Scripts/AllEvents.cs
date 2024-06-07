@@ -124,6 +124,10 @@ public class LoseEvent : SDD.Events.Event
 public class ScreamEvent : SDD.Events.Event
 {
 }
+
+public class AttackEvent : SDD.Events.Event
+{
+}
 #endregion
 
 #region EnemySpawn Event
