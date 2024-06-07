@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour, IEventHandler
     private bool canAttack;
     private bool willScream;
     private bool willCrawl;
+    private bool isCrawling;
+    private bool otherAttacking;
     private Animator m_Animator;
     private CapsuleCollider m_StandCollider;
     private BoxCollider m_DeathCollider;
@@ -103,20 +105,20 @@ public class Enemy : MonoBehaviour, IEventHandler
         if (mode == 0) // Walking Zombie Mode
         {
             SetSpeed(m_Speed);
-            PlayGroanSound(m_Groans,4f,8f);
+            PlayGroanSound(m_Groans,3f,5f);
 
         }
         else if(mode == 1) // Fast Zombie Mode
         {
             SetSpeed(m_FastSpeed);
-            PlayGroanSound(m_SprintGroans, 2f, 4f);
+            PlayGroanSound(m_SprintGroans, 1.5f, 2.5f);
         }
         else
         {
             canTouch = false;
             willScream = true;
             SetSpeed(m_FastSpeed);
-            PlayGroanSound(m_ScreamerGroans, 2f, 4f);
+            PlayGroanSound(m_ScreamerGroans, 1.5f, 2.5f);
         }
 
         this.willCrawl = willCrawl;
@@ -131,7 +133,7 @@ public class Enemy : MonoBehaviour, IEventHandler
     void FixedUpdate()
     {
         float distanceToPlayer = DistanceXZ(m_Spawn.transform.position, transform.position);
-        if (screamCoroutine == null)
+        if (screamCoroutine == null || otherAttacking)
         {
             float volumeEntry = distanceToPlayer / 20f;
             if (volumeEntry > 1)
@@ -178,6 +180,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         if (attackCoroutine == null)
         {
             m_audiSource.volume = 0f;
+            otherAttacking = true;
             canAttack = false;
         }
     }
@@ -251,7 +254,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         yield return new WaitForSeconds(2.5f);
         //DestroyEnemy();
         dieCoroutine = null;
-        m_Rigidbody.useGravity = true;
+        m_Rigidbody.useGravity = false;
         m_DeathCollider.enabled = false;
         m_Animator.SetBool("isCrawling", false);
         //StandUp();
@@ -267,6 +270,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_StandCollider.enabled = true;
         m_DeathCollider.enabled = false;
         m_Animator.SetBool("isStandingUp", false);
+        canAttack = true;
         canTouch = true;
         standUpCoroutine = null;
         PlayGroanSound();
@@ -277,9 +281,11 @@ public class Enemy : MonoBehaviour, IEventHandler
         yield return new WaitForSeconds(4f);
         crawlCoroutine = null;
         m_Animator.SetBool("isCrawling", true);
+        canAttack = true;
         canTouch = true;
         m_Life = 1;
-        PlayGroanSound(m_CrawlGroans,4f,8f);
+        isCrawling = true;
+        PlayGroanSound(m_CrawlGroans,4f,5f);
     }
 
     public static float DistanceXZ(Vector3 a, Vector3 b)
@@ -291,6 +297,7 @@ public class Enemy : MonoBehaviour, IEventHandler
     public void Die()
     {
         canTouch = false;
+        canAttack = false;
         if (willCrawl)
         {
             PlaySound(m_DeathSound2);

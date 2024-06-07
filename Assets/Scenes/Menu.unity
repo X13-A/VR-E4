@@ -3468,10 +3468,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Levels:
-  - crawlPorcent: 0
-    nWalkingEnemy: 1
+  - crawlPorcent: 100
+    nWalkingEnemy: 0
     nFastEnemy: 1
-    screamingEnemy: 1
+    screamingEnemy: 0
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
     spawnRadius: 20
     spawnInterval: 1
