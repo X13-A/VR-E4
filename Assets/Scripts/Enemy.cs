@@ -150,12 +150,16 @@ public class Enemy : MonoBehaviour, IEventHandler
             Scream();
             Debug.Log("Scream");
         }
-        else if (distanceToPlayer <= m_AttackDistance)
+        else if (!isCrawling && distanceToPlayer <= m_AttackDistance)
         {
             if (canAttack)
                 Attack();
             else
                 SetSpeed(0f);
+        }
+        else if (isCrawling && distanceToPlayer <= 1.2f)
+        {
+            EventManager.Instance.Raise(new LoseEvent());
         }
     }
 
@@ -206,7 +210,7 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     private IEnumerator WaitAttack()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(4.5f);
         EventManager.Instance.Raise(new LoseEvent());
         attackCoroutine = null;
     }
