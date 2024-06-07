@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Enemy : MonoBehaviour, IEventHandler
 {
     [SerializeField] float m_AttackDistance = 2f;
-    [SerializeField] float m_CrawlAttackDistance = 1.2f;
+    [SerializeField] float m_CrawlAttackDistance = 2f;
     [SerializeField] float m_Speed = 2f;
     [SerializeField] float m_FastSpeed = 6f;
     [SerializeField] float m_ScreamDistance = 6f;
@@ -158,7 +158,8 @@ public class Enemy : MonoBehaviour, IEventHandler
         }
         else if (isCrawling && distanceToPlayer <= m_CrawlAttackDistance)
         {
-            EventManager.Instance.Raise(new LoseEvent());
+            Attack();
+            m_Animator.speed = 0;
         }
     }
 
@@ -209,7 +210,7 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     private IEnumerator WaitAttack()
     {
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(1.5f);
         EventManager.Instance.Raise(new LoseEvent());
         attackCoroutine = null;
     }
