@@ -1,4 +1,5 @@
 using SDD.Events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,6 +53,18 @@ public class WeaponShooter : MonoBehaviour
 
     private void OnShootPerformed(InputAction.CallbackContext context)
     {
+        if (!WeaponManager.Instance.CanShoot)
+        {
+            EventManager.Instance.Raise(new PlaySoundEvent
+            {
+                eNameClip = $"outOfAmmo",
+                eLoop = false,
+                eCanStack = true,
+                eDestroyWhenFinished = true,
+                eVolumeMultiplier = 1f
+            });
+            return;
+        }
         Shoot();
     }
 

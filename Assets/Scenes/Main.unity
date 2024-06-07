@@ -1661,6 +1661,7 @@ MonoBehaviour:
   switch_gun1: {fileID: 8300000, guid: 818072fe92c6c454aaea94e16668d32e, type: 3}
   switch_gun2: {fileID: 8300000, guid: 69da65b53e1188440aa4e7916da2b068, type: 3}
   switch_gun3: {fileID: 8300000, guid: fda35b46908afe1438b4c29d8152e388, type: 3}
+  outOfAmmo: {fileID: 8300000, guid: 044e8e5ed3dea51488655af4117fd8e3, type: 3}
   spawnZombie: {fileID: 8300000, guid: fcb3328a01fd3ff4ca595820e43102b2, type: 3}
   hitZombie: {fileID: 8300000, guid: 50f46479c84a00640af451ae05d355ab, type: 3}
   groanZombie1: {fileID: 8300000, guid: ab55115f8c2d4cf4e86dd243f959002c, type: 3}
