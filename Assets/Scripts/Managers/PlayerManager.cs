@@ -7,18 +7,22 @@ public class PlayerManager : MonoBehaviour, IEventHandler
 {
     public GameObject m_Camera;
     private BlinkEffect m_BlinkEffect;
-    public AnimationCurve m_BlinkCurve;
+
+    public AnimationCurve m_StartBlinkCurve;
+    public AnimationCurve m_AttackBlinkCurve;
 
     private Transform m_CameraParent;
 
     public void SubscribeEvents()
     {
-        EventManager.Instance.AddListener<AttackEvent>(Attack);
+        EventManager.Instance.AddListener<AttackEvent>(AttackBlink);
+        EventManager.Instance.AddListener<GamePlayEvent>(StartBlink);
     }
 
     public void UnsubscribeEvents()
     {
-        EventManager.Instance.RemoveListener<AttackEvent>(Attack);
+        EventManager.Instance.RemoveListener<AttackEvent>(AttackBlink);
+        EventManager.Instance.RemoveListener<GamePlayEvent>(StartBlink);
     }
 
     void OnEnable()
@@ -54,12 +58,17 @@ public class PlayerManager : MonoBehaviour, IEventHandler
         }
     }
 
-    void Attack(AttackEvent e)
+    void AttackBlink(AttackEvent e)
     {
-        StartCoroutine(Blink(e.enemyTransform));
+        StartCoroutine(AttackBlink(e.enemyTransform));
     }
 
-    private IEnumerator Blink(Transform enemyTransform)
+    void StartBlink(GamePlayEvent e)
+    {
+        EventManager.Instance.Raise(new StartBlinkingFinishedEvent());
+    }
+
+    private IEnumerator AttackBlink(Transform enemyTransform)
     {
         bool changeOrientation = true;
         float t = 0;
@@ -68,7 +77,7 @@ public class PlayerManager : MonoBehaviour, IEventHandler
         {
             yield return null;
             t += Time.deltaTime;
-            m_BlinkEffect.time = m_BlinkCurve.Evaluate(t);
+            m_BlinkEffect.time = m_AttackBlinkCurve.Evaluate(t);
             if (changeOrientation && t >= 1.5f)
             {
                 changeOrientation = false;

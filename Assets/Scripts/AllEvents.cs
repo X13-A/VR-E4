@@ -32,6 +32,9 @@ public class UpdateScoreEvent : SDD.Events.Event
 public class KillAllEnemiesEvent : SDD.Events.Event
 {
 }
+public class StartBlinkingFinishedEvent : SDD.Events.Event
+{
+}
 #endregion
 
 #region LevelManager Events
