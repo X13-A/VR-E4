@@ -31,6 +31,7 @@ public class PlayerManager : MonoBehaviour, IEventHandler
         UnsubscribeEvents();
     }
 
+
     void Awake()
     {
         if (m_Camera == null)
@@ -58,15 +59,6 @@ public class PlayerManager : MonoBehaviour, IEventHandler
         StartCoroutine(Blink(e.enemyTransform));
     }
 
-    void Update()
-    {
-        /*if (Input.GetKeyDown(KeyCode.T))
-        {
-            Debug.Log("Blink");
-            StartCoroutine(Blink());
-        }*/
-    }
-
     private IEnumerator Blink(Transform enemyTransform)
     {
         bool changeOrientation = true;
@@ -74,7 +66,8 @@ public class PlayerManager : MonoBehaviour, IEventHandler
 
         while (t < 3)
         {
-            yield return new WaitForSeconds(0.05f);
+            yield return null;
+            t += Time.deltaTime;
             m_BlinkEffect.time = m_BlinkCurve.Evaluate(t);
             if (changeOrientation && t >= 1.5f)
             {
@@ -90,7 +83,6 @@ public class PlayerManager : MonoBehaviour, IEventHandler
                 // Apply the rotation difference to the parent
                 m_CameraParent.rotation = rotationDifference * m_CameraParent.rotation;
             }
-            t += 0.05f;
         }
     }
 }

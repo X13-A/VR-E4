@@ -206,7 +206,7 @@ public class Enemy : MonoBehaviour, IEventHandler
     {
         m_audiSource.Stop();
         m_Animator.speed = 0f;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         PlayRandomSound(m_Attacks);
         m_Animator.speed = 1f;
         yield return new WaitForSeconds(1.5f);
