@@ -149,17 +149,12 @@ public class Enemy : MonoBehaviour, IEventHandler
         {
             Scream();
         }
-        else if (!isCrawling && distanceToPlayer <= m_AttackDistance)
+        else if ((!isCrawling && distanceToPlayer <= m_AttackDistance) || (isCrawling && distanceToPlayer <= m_CrawlAttackDistance))
         {
             if (canAttack)
                 Attack();
             else
                 SetSpeed(0f);
-        }
-        else if (isCrawling && distanceToPlayer <= m_CrawlAttackDistance)
-        {
-            Attack();
-            m_Animator.speed = 0;
         }
     }
 
