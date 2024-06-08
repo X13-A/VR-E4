@@ -127,6 +127,7 @@ public class ScreamEvent : SDD.Events.Event
 
 public class AttackEvent : SDD.Events.Event
 {
+    public Transform enemyTransform;
 }
 #endregion
 

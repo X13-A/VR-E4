@@ -9,11 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: e6b31136b92eb5a4ba4991715931485c
   - enabled: 1
-    path: Assets/Scenes/Thomas.unity
-    guid: 575a20c08f854ef488ab955fd9b4f9e5
-  - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: a1a4e8a70d4796f49b6d2a98a7c89962
+  - enabled: 1
+    path: Assets/Scenes/Thomas.unity
+    guid: 575a20c08f854ef488ab955fd9b4f9e5
   - enabled: 1
     path: Assets/Scenes/Introduction.unity
     guid: 63bdb55d9e692d54498ecc3cf3e12a1f

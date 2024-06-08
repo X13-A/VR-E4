@@ -175,17 +175,16 @@ public class Enemy : MonoBehaviour, IEventHandler
     {
         m_Animator.SetTrigger("isAttacking");
         canAttack = false;
+        canTouch = false;
         attackCoroutine = StartCoroutine(WaitAttack());
-        PlayRandomSound(m_Attacks);
+        EventManager.Instance.Raise(new AttackEvent { enemyTransform = transform }) ;
     }
 
     void PlayerAttacked(AttackEvent e)
     {
         if (attackCoroutine == null)
         {
-            m_audiSource.volume = 0f;
-            otherAttacking = true;
-            canAttack = false;
+            DestroyEnemy();
         }
     }
 
@@ -210,6 +209,11 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     private IEnumerator WaitAttack()
     {
+        m_audiSource.Stop();
+        m_Animator.speed = 0f;
+        yield return new WaitForSeconds(3f);
+        PlayRandomSound(m_Attacks);
+        m_Animator.speed = 1f;
         yield return new WaitForSeconds(1.5f);
         EventManager.Instance.Raise(new LoseEvent());
         attackCoroutine = null;
@@ -303,10 +307,19 @@ public class Enemy : MonoBehaviour, IEventHandler
         canAttack = false;
         if (willCrawl)
         {
+            float distanceToPlayer = DistanceXZ(m_Spawn.transform.position, transform.position);
             PlaySound(m_DeathSound2);
             m_Animator.SetTrigger("isDying2");
-            willCrawl = false;
-            crawlCoroutine = StartCoroutine(WaitCrawl());
+
+            if (distanceToPlayer < 2f) // If Zombie is killed near the player he will not crawl
+            {
+                dieCoroutine = StartCoroutine(WaitDie());
+            }
+            else
+            {
+                willCrawl = false;
+                crawlCoroutine = StartCoroutine(WaitCrawl());
+            }
         }
         else
         {
