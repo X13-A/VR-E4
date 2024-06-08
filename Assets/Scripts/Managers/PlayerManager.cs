@@ -75,7 +75,7 @@ public class PlayerManager : MonoBehaviour, IEventHandler
         while (t < 3)
         {
             yield return new WaitForSeconds(0.05f);
-            //m_BlinkEffect.time = m_BlinkCurve.Evaluate(t);
+            m_BlinkEffect.time = m_BlinkCurve.Evaluate(t);
             if (changeOrientation && t >= 1.5f)
             {
                 changeOrientation = false;
