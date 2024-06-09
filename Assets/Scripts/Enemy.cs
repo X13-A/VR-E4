@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Enemy : MonoBehaviour, IEventHandler
 {
     [SerializeField] float m_AttackDistance = 2f;
-    [SerializeField] float m_CrawlAttackDistance = 2f;
+    [SerializeField] float m_CrawlAttackDistance = 1.3f;
     [SerializeField] float m_Speed = 2f;
     [SerializeField] float m_FastSpeed = 6f;
     [SerializeField] float m_ScreamDistance = 6f;
@@ -172,7 +172,12 @@ public class Enemy : MonoBehaviour, IEventHandler
         canAttack = false;
         canTouch = false;
         attackCoroutine = StartCoroutine(WaitAttack());
-        EventManager.Instance.Raise(new AttackEvent { enemyTransform = transform }) ;
+        Vector3 position = transform.position;
+        if (!isCrawling)
+        {
+            position += new Vector3(0f, 1.3f, 0f);
+        }
+        EventManager.Instance.Raise(new AttackEvent { enemyPosition = position }) ;
     }
 
     void PlayerAttacked(AttackEvent e)
@@ -185,6 +190,7 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     void StandUp()
     {
+        EventManager.Instance.Raise(new ReviveEvent());
         FixRotation();
         m_Animator.SetBool("isStandingUp", true);
         standUpCoroutine = StartCoroutine(WaitStandUp());
@@ -196,9 +202,13 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     void StandUp(ScreamEvent e)
     {
-        if(m_Life <= 0)
+        if (m_Life <= 0)
         {
-            StandUp();
+            float distanceToPlayer = DistanceXZ(m_Spawn.transform.position, transform.position);
+            if (distanceToPlayer >= (m_AttackDistance + 1f))
+                StandUp();
+            else
+                DestroyEnemy();
         }
     }
 
@@ -230,11 +240,11 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_Animator.SetBool("isScreaming", true);
         screamCoroutine = StartCoroutine(WaitScream());
         PlaySound(m_ScreamSound);
-        m_audiSource.volume = 1f;
     }
 
     private IEnumerator WaitScream()
     {
+        float lastVolume = m_audiSource.volume;
         m_audiSource.volume = 1f;
         yield return new WaitForSeconds(1.15f);
         m_Animator.speed = 0.25f;
@@ -245,6 +255,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         yield return new WaitForSeconds(3f);
         m_Animator.speed = 1f;
         m_Animator.SetBool("isScreaming", false);
+        m_audiSource.volume = lastVolume;
         screamCoroutine = null;
         canTouch = true;
         PlayGroanSound();

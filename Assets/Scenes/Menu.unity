@@ -3295,6 +3295,7 @@ MonoBehaviour:
   maxAmmo: {fileID: 8300000, guid: 12247473d3a77c04aa15ae0a25a1a9d9, type: 3}
   loseGame: {fileID: 8300000, guid: 7903dba7224c10a4e8ebfdc44605fbcb, type: 3}
   winGame: {fileID: 8300000, guid: 4d1b5dba8adf9e84ba8ada673127b3b4, type: 3}
+  finishedWave: {fileID: 8300000, guid: f32666f32a068ff4e88d1b8909d5d524, type: 3}
   SKS_shot: {fileID: 8300000, guid: b57e13e5ec3b2514bb80f6480a8d3b8a, type: 3}
   thompson_shot: {fileID: 8300000, guid: c2635e0be7846024c9f0ddbaaca52837, type: 3}
   m1014_shot: {fileID: 8300000, guid: 6514a1586e916784180367acce321051, type: 3}
@@ -3469,9 +3470,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Levels:
   - crawlPorcent: 100
-    nWalkingEnemy: 0
+    nWalkingEnemy: 2
     nFastEnemy: 1
-    screamingEnemy: 0
+    screamingEnemy: 1
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
     spawnRadius: 20
     spawnInterval: 1
@@ -3479,6 +3480,7 @@ MonoBehaviour:
     angleStep: 50
     readAngleActivate: 0
     enemyLife: 2
+  m_WaitTimeBetweenLevel: 11
 --- !u!1 &1898283472
 GameObject:
   m_ObjectHideFlags: 0

@@ -60,31 +60,47 @@ public class PlayerManager : MonoBehaviour, IEventHandler
 
     void AttackBlink(AttackEvent e)
     {
-        StartCoroutine(AttackBlink(e.enemyTransform));
+        StartCoroutine(AttackBlink(e.enemyPosition));
     }
 
     void StartBlink(GamePlayEvent e)
     {
+        StartCoroutine(StartBlink());
+    }
+
+    private IEnumerator StartBlink()
+    {
+        float t = 0;
+        float tMax = GetMaxTimeFromCurve(m_StartBlinkCurve);
+        while (t < tMax)
+        {
+            m_BlinkEffect.time = m_StartBlinkCurve.Evaluate(t);
+            yield return null;
+            t += Time.deltaTime;
+            
+        }
+        m_BlinkEffect.time = m_StartBlinkCurve.Evaluate(3f);
         EventManager.Instance.Raise(new StartBlinkingFinishedEvent());
     }
 
-    private IEnumerator AttackBlink(Transform enemyTransform)
+    private IEnumerator AttackBlink(Vector3 enemyPosition)
     {
         bool changeOrientation = true;
         float t = 0;
+        float tMax = GetMaxTimeFromCurve(m_AttackBlinkCurve);
 
-        while (t < 3)
+        while (t < tMax)
         {
+            m_BlinkEffect.time = m_AttackBlinkCurve.Evaluate(t);
             yield return null;
             t += Time.deltaTime;
-            m_BlinkEffect.time = m_AttackBlinkCurve.Evaluate(t);
             if (changeOrientation && t >= 1.5f)
             {
                 changeOrientation = false;
 
                 // Calculate current rotation and target rotation
                 Quaternion currentRotation = m_Camera.transform.rotation;
-                Quaternion targetRotation = Quaternion.LookRotation(enemyTransform.transform.position + new Vector3(0f,1.3f,0f)  - m_Camera.transform.position);
+                Quaternion targetRotation = Quaternion.LookRotation(enemyPosition  - m_Camera.transform.position);
 
                 // Calculate the rotation difference
                 Quaternion rotationDifference = targetRotation * Quaternion.Inverse(currentRotation);
@@ -93,5 +109,18 @@ public class PlayerManager : MonoBehaviour, IEventHandler
                 m_CameraParent.rotation = rotationDifference * m_CameraParent.rotation;
             }
         }
+        m_BlinkEffect.time = m_StartBlinkCurve.Evaluate(3f);
+    }
+
+    float GetMaxTimeFromCurve(AnimationCurve curve)
+    {
+        if (curve == null || curve.length == 0)
+        {
+            Debug.LogError("La courbe est nulle ou vide.");
+            return 0f;
+        }
+
+        Keyframe[] keyframes = curve.keys;
+        return keyframes[keyframes.Length - 1].time;
     }
 }
