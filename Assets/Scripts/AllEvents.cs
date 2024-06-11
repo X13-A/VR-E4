@@ -69,15 +69,6 @@ public class MenuButtonClickedEvent : SDD.Events.Event
 #region ScoreManager Events
 #endregion
 
-#region PauseManager Events
-public class PauseEvent : SDD.Events.Event
-{
-}
-public class ResumeEvent : SDD.Events.Event
-{
-}
-#endregion
-
 #region AudioManager Events
 public class SoundMixAllEvent : SDD.Events.Event
 {
