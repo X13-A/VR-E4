@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: -876546973899608171, guid: 059450cd384d21341bb9709beed2d659, type: 3}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -401,7 +401,7 @@ MonoBehaviour:
   curved: {fileID: 4800000, guid: 830702ece31434f4aad50d6eed366162, type: 3}
   smoothness: 1
   curvature: 1
-  time: 1
+  time: 0
   fadeOutDelay: 0
   fadeInCurve:
     serializedVersion: 2
@@ -1723,6 +1723,7 @@ MonoBehaviour:
   maxAmmo: {fileID: 8300000, guid: 12247473d3a77c04aa15ae0a25a1a9d9, type: 3}
   loseGame: {fileID: 8300000, guid: 7903dba7224c10a4e8ebfdc44605fbcb, type: 3}
   winGame: {fileID: 8300000, guid: 4d1b5dba8adf9e84ba8ada673127b3b4, type: 3}
+  finishedWave: {fileID: 0}
   SKS_shot: {fileID: 8300000, guid: b57e13e5ec3b2514bb80f6480a8d3b8a, type: 3}
   thompson_shot: {fileID: 8300000, guid: c2635e0be7846024c9f0ddbaaca52837, type: 3}
   m1014_shot: {fileID: 8300000, guid: 6514a1586e916784180367acce321051, type: 3}
