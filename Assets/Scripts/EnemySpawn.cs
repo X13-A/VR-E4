@@ -114,8 +114,6 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
     {
         // Tirer un angle aléatoire de la liste
         int randomIndex = Random.Range(0, availableAngles.Count);
-        Debug.Log(randomIndex);
-        Debug.Log(availableAngles.Count);
         float angle = availableAngles[randomIndex];
         availableAngles.RemoveAt(randomIndex);
 
@@ -135,7 +133,6 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
                 // Tirer un type d'ennemi aléatoire dans la liste
                 int randomPorcent = Random.Range(0, 100);
                 bool willCrawl = (randomPorcent < crawlPorcent);
-                Debug.Log("willCrawl : " + willCrawl);
                 int randomIndex2 = Random.Range(0, nFastEnemy + nWalkingEnemy);
                 if (randomIndex2 < nFastEnemy)
                 {
@@ -178,7 +175,6 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
         if (availableAngles.Count == 0)
         {
             InitializeAngles();
-            Debug.Log("INITIALIZE ANGLES :"+availableAngles.Count);
         }
         else if (readAngleActivate && !availableAngles.Contains(angle))
         {

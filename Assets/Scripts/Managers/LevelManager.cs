@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour, IEventHandler
     [SerializeField] List<Level> m_Levels;
     private Level m_CurrentLevel;
     private int m_IndexLevel;
+    public int IndexLevel { get { return m_IndexLevel; } }
     [SerializeField] float m_WaitTimeBetweenLevel;
 
 
