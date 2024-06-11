@@ -85,6 +85,7 @@ public class PlayerManager : MonoBehaviour, IEventHandler
 
     private IEnumerator AttackBlink(Vector3 enemyPosition)
     {
+        EventManager.Instance.Raise(new DisableAllGunsEvent());
         bool changeOrientation = true;
         float t = 0;
         float tMax = GetMaxTimeFromCurve(m_AttackBlinkCurve);

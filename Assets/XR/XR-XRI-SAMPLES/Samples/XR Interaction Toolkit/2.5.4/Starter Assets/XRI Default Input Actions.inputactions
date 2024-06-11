@@ -1588,7 +1588,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SwitchTo1",
+                    "name": "SwitchNext",
                     "type": "Button",
                     "id": "e7aa7153-bc2b-476f-9760-e4322bf2e879",
                     "expectedControlType": "Button",
@@ -1597,18 +1597,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SwitchTo2",
+                    "name": "SwitchPrev",
                     "type": "Button",
                     "id": "df601433-3b6f-48a2-97a7-0daf1edbcca0",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SwitchTo3",
-                    "type": "Button",
-                    "id": "6098a150-c804-4023-bd87-6180909e0106",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1799,7 +1790,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SwitchTo1",
+                    "action": "SwitchNext",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1810,18 +1801,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SwitchTo2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2fe0185d-2bad-454b-ad6b-30ee540d167f",
-                    "path": "<XRController>{RightHand}/{MenuButton}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SwitchTo3",
+                    "action": "SwitchPrev",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
