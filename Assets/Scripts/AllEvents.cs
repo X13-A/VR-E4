@@ -24,7 +24,7 @@ public class GameWinEvent : SDD.Events.Event
 }
 public class UpdateScoreEvent : SDD.Events.Event
 {
-    public int score { get; set; }
+    public int indexLevel { get; set; }
 }
 #endregion
 

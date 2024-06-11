@@ -102,5 +102,6 @@ public class MenuManager : MonoBehaviour, IEventHandler
     void Score()
     {
         OpenPanel(m_ScorePanel);
+        EventManager.Instance.Raise(new UpdateScoresTextEvent());
     }
 }

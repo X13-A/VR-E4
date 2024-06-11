@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SDD.Events;
 
+
 public class LevelManager : Singleton<LevelManager>, IEventHandler
 {
     [SerializeField] List<Level> m_Levels;
@@ -10,31 +11,27 @@ public class LevelManager : Singleton<LevelManager>, IEventHandler
     private int m_IndexLevel;
     public int IndexLevel { get { return m_IndexLevel; } }
     [SerializeField] float m_WaitTimeBetweenLevel;
+    public int NumberOfLevel;
 
 
     void Awake()
     {
-        Initialize();
-    }
-
-    void Initialize()
-    {
+        base.Awake();
         m_CurrentLevel = null;
         m_IndexLevel = 0;
+        NumberOfLevel = m_Levels.Count;
     }
 
     public void SubscribeEvents()
     {
         EventManager.Instance.AddListener<StartBlinkingFinishedEvent>(InitializeLevel);
         EventManager.Instance.AddListener<AllEnemyDeadEvent>(FinishLevel);
-        EventManager.Instance.AddListener<GameLoseEvent>(LoseLevel);
     }
 
     public void UnsubscribeEvents()
     {
         EventManager.Instance.RemoveListener<StartBlinkingFinishedEvent>(InitializeLevel);
         EventManager.Instance.RemoveListener<AllEnemyDeadEvent>(FinishLevel);
-        EventManager.Instance.RemoveListener<GameLoseEvent>(LoseLevel);
     }
 
     void OnEnable()
@@ -71,14 +68,8 @@ public class LevelManager : Singleton<LevelManager>, IEventHandler
         }
         else
         {
-            Initialize();
             EventManager.Instance.Raise(new FinishAllLevelEvent());
         }
-    }
-
-    void LoseLevel(GameLoseEvent e)
-    {
-        Initialize();
     }
 
     IEnumerator WaitNextLevel()
