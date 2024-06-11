@@ -136,7 +136,7 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
                 int randomIndex2 = Random.Range(0, nFastEnemy + nWalkingEnemy);
                 if (randomIndex2 < nFastEnemy)
                 {
-                    enemyScript.Initialize(this, angle, 1, willCrawl, enemyLife / 2);
+                    enemyScript.Initialize(this, angle, 1, willCrawl, enemyLife);
                     nFastEnemy -= 1;
                 }
                 else
