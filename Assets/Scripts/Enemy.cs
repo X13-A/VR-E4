@@ -179,6 +179,10 @@ public class Enemy : MonoBehaviour, IEventHandler
         {
             position += new Vector3(0f, 1.3f, 0f);
         }
+        else
+        {
+            position += new Vector3(0f, 0.2f, 0f);
+        }
         EventManager.Instance.Raise(new AttackEvent { enemyPosition = position }) ;
     }
 
@@ -298,6 +302,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         crawlCoroutine = null;
         m_Animator.SetBool("isCrawling", true);
         canAttack = true;
+        FixRotation();
         canTouch = true;
         m_Life = 1;
         isCrawling = true;
