@@ -3,16 +3,41 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TextDisplay : MonoBehaviour
 {
-    public List<TextMeshProUGUI> texts;
-    public float fadeDuration = 1.0f;
-    public float displayDuration = 2.0f;
-    public KeyCode skipKey = KeyCode.Space;
+    [SerializeField] private List<TextMeshProUGUI> texts;
+    [SerializeField] private float fadeDuration = 1.0f;
+    [SerializeField] private float displayDuration = 2.0f;
+    [SerializeField] protected InputActionAsset inputActionAsset;
 
     private int currentIndex = 0;
     private bool isSkipping = false;
+
+    protected InputAction skipText;
+
+    private void Awake()
+    {
+        skipText = inputActionAsset.FindActionMap("XRI RightHand Interaction").FindAction("Shoot");
+    }
+
+    protected void OnEnable()
+    {
+        skipText.performed += OnSkipPerformed;
+        skipText.Enable();
+    }
+
+    protected void OnDisable()
+    {
+        skipText.performed -= OnSkipPerformed;
+        skipText.Disable();
+    }
+
+    private void OnSkipPerformed(InputAction.CallbackContext context)
+    {
+        isSkipping = true;
+    }
 
     void Start()
     {
@@ -22,14 +47,6 @@ public class TextDisplay : MonoBehaviour
         }
 
         StartCoroutine(DisplayTexts());
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(skipKey))
-        {
-            isSkipping = true;
-        }
     }
 
     IEnumerator DisplayTexts()

@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: d60839ab915eb8f448993b82c8355634, type: 2}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.000075043696, g: 0.000060816245, b: 0.00001026505, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2236,7 +2236,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 22.1, y: -8.1}
-  m_SizeDelta: {x: 20, y: 5}
+  m_SizeDelta: {x: 100, y: 5}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &861188672
 MonoBehaviour:
@@ -2258,7 +2258,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Undead Dawn
+  m_text: The Screaming Forest
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1dd5a65d68cc16844a1cd86877046b37, type: 2}
   m_sharedMaterial: {fileID: 5045861003088526424, guid: 1dd5a65d68cc16844a1cd86877046b37, type: 2}
@@ -3469,15 +3469,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Levels:
-  - crawlPorcent: 100
-    nWalkingEnemy: 2
+  - crawlPorcent: 0
+    nWalkingEnemy: 3
+    nFastEnemy: 0
+    screamingEnemy: 0
+    enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
+    spawnRadius: 20
+    spawnInterval: 5
+    deltaspawnInterval: 0.5
+    angleStep: 10
+    readAngleActivate: 0
+    enemyLife: 2
+  - crawlPorcent: 0
+    nWalkingEnemy: 3
     nFastEnemy: 1
     screamingEnemy: 1
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
     spawnRadius: 20
-    spawnInterval: 1
+    spawnInterval: 4
     deltaspawnInterval: 0.5
-    angleStep: 50
+    angleStep: 10
+    readAngleActivate: 0
+    enemyLife: 2
+  - crawlPorcent: 50
+    nWalkingEnemy: 6
+    nFastEnemy: 2
+    screamingEnemy: 0
+    enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
+    spawnRadius: 20
+    spawnInterval: 3
+    deltaspawnInterval: 1
+    angleStep: 10
+    readAngleActivate: 0
+    enemyLife: 2
+  - crawlPorcent: 50
+    nWalkingEnemy: 10
+    nFastEnemy: 3
+    screamingEnemy: 1
+    enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
+    spawnRadius: 20
+    spawnInterval: 2
+    deltaspawnInterval: 1
+    angleStep: 10
     readAngleActivate: 0
     enemyLife: 2
   m_WaitTimeBetweenLevel: 11
