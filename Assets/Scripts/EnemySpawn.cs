@@ -24,20 +24,13 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
     public void SubscribeEvents()
     {
         EventManager.Instance.AddListener<LoadLevelEvent>(SetEnemySpawn);
-        EventManager.Instance.AddListener<LoseEvent>(DestroyAllEnemies);
         EventManager.Instance.AddListener<ReviveEvent>(ReviveEnemy);
     }
 
     public void UnsubscribeEvents()
     {
         EventManager.Instance.RemoveListener<LoadLevelEvent>(SetEnemySpawn);
-        EventManager.Instance.RemoveListener<LoseEvent>(DestroyAllEnemies);
         EventManager.Instance.RemoveListener<ReviveEvent>(ReviveEnemy);
-    }
-
-    void DestroyAllEnemies(LoseEvent e)
-    {
-        EventManager.Instance.Raise(new DestroyAllEnemiesEvent());
     }
 
     void SetEnemySpawn(LoadLevelEvent e)
