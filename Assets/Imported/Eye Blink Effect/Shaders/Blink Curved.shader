@@ -1,6 +1,4 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-Shader "Hidden/Image Effects/Blink Curved"
+﻿Shader "Hidden/Image Effects/Blink Curved"
 {
 	Properties
 	{
@@ -63,4 +61,5 @@ Shader "Hidden/Image Effects/Blink Curved"
 			ENDCG
 		}
 	}
+	Fallback Off
 }
