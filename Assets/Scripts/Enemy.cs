@@ -106,12 +106,14 @@ public class Enemy : MonoBehaviour, IEventHandler
         {
             SetSpeed(m_Speed);
             PlayGroanSound(m_Groans,3f,5f);
+            m_Life = life;
 
         }
         else if(mode == 1) // Fast Zombie Mode
         {
             SetSpeed(m_FastSpeed);
             PlayGroanSound(m_SprintGroans, 1.5f, 2.5f);
+            m_Life = life/2;
         }
         else
         {
@@ -119,6 +121,7 @@ public class Enemy : MonoBehaviour, IEventHandler
             willScream = true;
             SetSpeed(m_FastSpeed);
             PlayGroanSound(m_ScreamerGroans, 1.5f, 2.5f);
+            m_Life = life;
         }
 
         this.willCrawl = willCrawl;
@@ -126,7 +129,6 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_Angle = angle;
       
         canAttack = true;
-        m_Life = life;
         m_MaxLife = life;
     }
 
@@ -197,6 +199,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_DeathCollider.enabled = true;
         m_Rigidbody.useGravity = true;
         m_Life = m_MaxLife;
+        SetSpeed(m_Speed);
         PlayRandomSound(m_Groans);
     }
 
