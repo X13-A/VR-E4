@@ -164,4 +164,7 @@ public class DisableAllGunsEvent : SDD.Events.Event
 {
 }
 
+public class SwitchWeaponEvent : SDD.Events.Event
+{
+}
 #endregion

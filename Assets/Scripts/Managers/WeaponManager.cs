@@ -98,5 +98,7 @@ public class WeaponManager : Singleton<WeaponManager>, IEventHandler
             eDestroyWhenFinished = true,
             eVolumeMultiplier = 1f
         });
+
+        EventManager.Instance.Raise(new SwitchWeaponEvent());
     }
 }
