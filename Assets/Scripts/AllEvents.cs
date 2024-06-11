@@ -160,4 +160,8 @@ public class ShootEvent : SDD.Events.Event
 {
 }
 
+public class DisableAllGunsEvent : SDD.Events.Event
+{
+}
+
 #endregion
