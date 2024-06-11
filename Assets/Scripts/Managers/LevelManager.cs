@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SDD.Events;
 
-public class LevelManager : MonoBehaviour, IEventHandler
+public class LevelManager : Singleton<LevelManager>, IEventHandler
 {
     [SerializeField] List<Level> m_Levels;
     private Level m_CurrentLevel;
