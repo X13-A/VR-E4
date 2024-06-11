@@ -79,7 +79,7 @@ public class PlayerManager : MonoBehaviour, IEventHandler
             t += Time.deltaTime;
             
         }
-        m_BlinkEffect.time = m_StartBlinkCurve.Evaluate(3f);
+        m_BlinkEffect.time = m_StartBlinkCurve.Evaluate(tMax);
         EventManager.Instance.Raise(new StartBlinkingFinishedEvent());
     }
 
@@ -110,7 +110,7 @@ public class PlayerManager : MonoBehaviour, IEventHandler
                 m_CameraParent.rotation = rotationDifference * m_CameraParent.rotation;
             }
         }
-        m_BlinkEffect.time = m_StartBlinkCurve.Evaluate(3f);
+        m_BlinkEffect.time = m_StartBlinkCurve.Evaluate(tMax);
     }
 
     float GetMaxTimeFromCurve(AnimationCurve curve)

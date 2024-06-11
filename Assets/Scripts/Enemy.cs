@@ -10,8 +10,10 @@ public class Enemy : MonoBehaviour, IEventHandler
     [SerializeField] float m_Speed = 2f;
     [SerializeField] float m_FastSpeed = 6f;
     [SerializeField] float m_ScreamDistance = 6f;
-
+    [SerializeField] Transform headshotTransform;
+    [SerializeField] float headshotDistance;
     [SerializeField] GameObject hitParticles;
+    [SerializeField] GameObject headshotParticles;
 
     private EnemySpawn m_Spawn;
     private float m_Angle;
@@ -386,9 +388,18 @@ public class Enemy : MonoBehaviour, IEventHandler
 
     public void Touch(float damage, Vector3? hitPoint = null)
     {
+        bool headshot = false;
+        if (hitPoint != null)
+        {
+            headshot = Vector3.Distance(hitPoint.Value, headshotTransform.position) < headshotDistance;
+            StartCoroutine(PlayHitParticles(hitPoint.Value, headshot));
+        }
+
         if (!canTouch) return;
 
-        m_Life -= damage;
+        if (headshot) m_Life -= damage * 2;
+        else m_Life -= damage;
+
         if(m_Life <= 0)
         {
             m_Life = 0;
@@ -398,16 +409,21 @@ public class Enemy : MonoBehaviour, IEventHandler
         {
             Hit();
         }
-
-        if (hitPoint != null)
-        {
-            StartCoroutine(PlayHitParticles(hitPoint.Value));
-        }
     }
 
-    private IEnumerator PlayHitParticles(Vector3 hitPoint)
+    private IEnumerator PlayHitParticles(Vector3 hitPoint, bool headshot)
     {
-        GameObject particlesInstance = Instantiate(hitParticles);
+        GameObject particlesInstance;
+        if (headshot)
+        {
+            Debug.Log("HEADSHOT");
+            particlesInstance = Instantiate(headshotParticles);
+        }
+        else
+        {
+            particlesInstance = Instantiate(hitParticles);
+        }
+
         particlesInstance.transform.position = hitPoint;
         particlesInstance.GetComponent<ParticleSystem>().Stop();
         particlesInstance.GetComponent<ParticleSystem>().Play();
