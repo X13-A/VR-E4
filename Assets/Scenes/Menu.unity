@@ -2236,7 +2236,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 22.1, y: -8.1}
-  m_SizeDelta: {x: 20, y: 5}
+  m_SizeDelta: {x: 100, y: 5}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &861188672
 MonoBehaviour:
@@ -2258,7 +2258,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Undead Dawn
+  m_text: The Screaming Forest
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1dd5a65d68cc16844a1cd86877046b37, type: 2}
   m_sharedMaterial: {fileID: 5045861003088526424, guid: 1dd5a65d68cc16844a1cd86877046b37, type: 2}
