@@ -19,6 +19,7 @@ public class AudioManager : Singleton<AudioManager>, IEventHandler
     [SerializeField] private AudioClip maxAmmo;
     [SerializeField] private AudioClip loseGame;
     [SerializeField] private AudioClip winGame;
+    [SerializeField] private AudioClip finishedWave;
 
     [Header("Guns")]
     [SerializeField] private AudioClip SKS_shot;
@@ -62,7 +63,8 @@ public class AudioManager : Singleton<AudioManager>, IEventHandler
             { "switch_gun2", Tuple.Create(switch_gun2, "gameplay") },
             { "switch_gun3", Tuple.Create(switch_gun3, "gameplay") },
             { "outOfAmmo", Tuple.Create(outOfAmmo, "gameplay") },
-            { "menu", Tuple.Create(menu, "menu") }
+            { "menu", Tuple.Create(menu, "menu") },
+            {"finishedWave",Tuple.Create(finishedWave, "gameplay") }
         };
 
         /* /!\ Add all audio types to the lists in UpdateVolumeList() function /!\ */

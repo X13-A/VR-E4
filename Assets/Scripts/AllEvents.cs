@@ -130,7 +130,11 @@ public class ScreamEvent : SDD.Events.Event
 
 public class AttackEvent : SDD.Events.Event
 {
-    public Transform enemyTransform;
+    public Vector3 enemyPosition;
+}
+
+public class ReviveEvent : SDD.Events.Event
+{
 }
 #endregion
 

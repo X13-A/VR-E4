@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour, IEventHandler
     [SerializeField] List<Level> m_Levels;
     private Level m_CurrentLevel;
     private int m_IndexLevel;
+    [SerializeField] float m_WaitTimeBetweenLevel;
 
 
     void Awake()
@@ -62,9 +63,10 @@ public class LevelManager : MonoBehaviour, IEventHandler
 
     void FinishLevel(AllEnemyDeadEvent e)
     {
-        if (m_IndexLevel < m_Levels.Count - 1) { 
-            m_IndexLevel++;
-            LoadLevel(m_Levels[m_IndexLevel]);
+        if (m_IndexLevel < m_Levels.Count - 1) {
+            EventManager.Instance.Raise(new StopSoundAllEvent());
+            EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "finishedWave", eLoop = false });
+            StartCoroutine(WaitNextLevel());
         }
         else
         {
@@ -76,6 +78,15 @@ public class LevelManager : MonoBehaviour, IEventHandler
     void LoseLevel(GameLoseEvent e)
     {
         Initialize();
+    }
+
+    IEnumerator WaitNextLevel()
+    {
+        yield return new WaitForSeconds(m_WaitTimeBetweenLevel);
+        m_IndexLevel++;
+        LoadLevel(m_Levels[m_IndexLevel]);
+        EventManager.Instance.Raise(new StopSoundAllEvent());
+        EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "ambient", eLoop = true });
     }
 
 }
