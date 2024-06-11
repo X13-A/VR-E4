@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &495485001390885105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4207308665188259345}
+  m_Layer: 3
+  m_Name: Headshot Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4207308665188259345
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495485001390885105}
+  serializedVersion: 2
+  m_LocalRotation: {x: 9.312669e-10, y: 1.0102029e-11, z: 0.098214924, w: 0.9951652}
+  m_LocalPosition: {x: -0.061, y: -0.012, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6334216868429425863}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3515319438652331121
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +252,10 @@ MonoBehaviour:
   m_Speed: 2
   m_FastSpeed: 6
   m_ScreamDistance: 10
+  headshotTransform: {fileID: 4207308665188259345}
+  headshotDistance: 0.2
   hitParticles: {fileID: 1834194341294532, guid: b1a8226e76b41ce47b330fae801d0656, type: 3}
+  headshotParticles: {fileID: 1834194341294532, guid: b94d223691510eb4fad06b1912bc7ac5, type: 3}
   m_DistanceVolume:
     serializedVersion: 2
     m_Curve:
@@ -852,6 +886,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7317118214247011507, guid: 16f88bac483bd004aa718dd62225897d, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 4207308665188259345}
     - targetCorrespondingSourceObject: {fileID: 4797993383793408352, guid: 16f88bac483bd004aa718dd62225897d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8416978002776721378}
@@ -868,6 +905,11 @@ Transform:
 --- !u!4 &6334216868429425817 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7317118214247011565, guid: 16f88bac483bd004aa718dd62225897d, type: 3}
+  m_PrefabInstance: {fileID: 3633288418357557364}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6334216868429425863 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7317118214247011507, guid: 16f88bac483bd004aa718dd62225897d, type: 3}
   m_PrefabInstance: {fileID: 3633288418357557364}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8140798517994062100 stripped

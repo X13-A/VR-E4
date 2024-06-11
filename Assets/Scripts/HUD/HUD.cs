@@ -51,6 +51,6 @@ public class HUD : MonoBehaviour, IEventHandler
 
     void LoadLevel(LoadLevelEvent e)
     {
-        waves.text = "wave: " + LevelManager.Instance.IndexLevel + 1;
+        waves.text = "wave: " + LevelManager.Instance?.IndexLevel + 1;
     }
 }
