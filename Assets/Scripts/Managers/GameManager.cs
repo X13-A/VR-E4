@@ -5,7 +5,7 @@ using SDD.Events;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 
-public enum GAMESTATE { menu, play, pause, victory, gameover, introduction }
+public enum GAMESTATE { menu, play, victory, gameover, introduction }
 public delegate void afterFunction();
 
 public class GameManager : MonoBehaviour, IEventHandler
@@ -29,8 +29,6 @@ public class GameManager : MonoBehaviour, IEventHandler
         EventManager.Instance.AddListener<MenuButtonClickedEvent>(Menu);
         EventManager.Instance.AddListener<FinishAllLevelEvent>(Win);
         EventManager.Instance.AddListener<LoseEvent>(Lose);
-        EventManager.Instance.AddListener<PauseEvent>(Pause);
-        EventManager.Instance.AddListener<ResumeEvent>(Resume);
     }
 
     public void UnsubscribeEvents()
@@ -41,7 +39,6 @@ public class GameManager : MonoBehaviour, IEventHandler
         EventManager.Instance.RemoveListener<MenuButtonClickedEvent>(Menu);
         EventManager.Instance.RemoveListener<FinishAllLevelEvent>(Win);
         EventManager.Instance.RemoveListener<LoseEvent>(Lose);
-        EventManager.Instance.RemoveListener<ResumeEvent>(Resume);
     }
 
     void SetState(GAMESTATE newState)
@@ -68,10 +65,6 @@ public class GameManager : MonoBehaviour, IEventHandler
                 EventManager.Instance.Raise(new GameLoseEvent());
                 EventManager.Instance.Raise(new StopSoundAllEvent());
                 EventManager.Instance.Raise(new PlaySoundEvent() { eNameClip = "loseGame", eLoop = false });
-                break;
-            case GAMESTATE.pause:
-                EventManager.Instance.Raise(new GamePauseEvent());
-                EventManager.Instance.Raise(new SoundMixAllEvent() { eGameplayVolume = 0 });
                 break;
             case GAMESTATE.introduction:
                 break;
@@ -136,18 +129,6 @@ public class GameManager : MonoBehaviour, IEventHandler
     void Lose(LoseEvent e)
     {
         StartCoroutine(LoadSceneThenFunction(0,Lose));
-    }
-
-    void Pause(PauseEvent e)
-    {
-        SetState(GAMESTATE.pause);
-    }
-
-    void Resume(ResumeEvent e)
-    {
-        m_State = GAMESTATE.play;
-        EventManager.Instance.Raise(new GameResumeEvent());
-        EventManager.Instance.Raise(new SoundMixAllEvent() { eGameplayVolume = 1 });
     }
 
     private IEnumerator LoadSceneThenFunction(int? sceneIndex, afterFunction function)
