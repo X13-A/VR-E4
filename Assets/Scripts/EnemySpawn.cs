@@ -81,6 +81,7 @@ public class EnemySpawn : MonoBehaviour, IEventHandler
 
     IEnumerator SpawnEnemies()
     {
+        yield return new WaitForSeconds(spawnInterval);
         while (nEnemy>0)
         {
             if (availableAngles.Count >0)

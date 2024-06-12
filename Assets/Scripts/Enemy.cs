@@ -248,20 +248,22 @@ public class Enemy : MonoBehaviour, IEventHandler
         willScream = false;
         m_Animator.SetBool("isScreaming", true);
         screamCoroutine = StartCoroutine(WaitScream());
-        PlaySound(m_ScreamSound);
+        
     }
 
     private IEnumerator WaitScream()
     {
+        yield return new WaitForSeconds(0.4f);
         float lastVolume = m_audiSource.volume;
         m_audiSource.volume = 1f;
-        yield return new WaitForSeconds(1.15f);
+        PlaySound(m_ScreamSound);
+        yield return new WaitForSeconds(1f);
         m_Animator.speed = 0.25f;
         SetSpeed(m_Speed);
         yield return new WaitForSeconds(3f);
         EventManager.Instance.Raise(new ScreamEvent());
         //m_Animator.speed = 1f;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.5f);
         m_Animator.speed = 1f;
         m_Animator.SetBool("isScreaming", false);
         m_audiSource.volume = lastVolume;
@@ -321,11 +323,17 @@ public class Enemy : MonoBehaviour, IEventHandler
     {
         canTouch = false;
         canAttack = false;
+        if (hitCoroutine != null)
+        {
+            StopCoroutine(hitCoroutine);
+            hitCoroutine = null;
+        }
         if (willCrawl)
         {
             float distanceToPlayer = DistanceXZ(m_Spawn.transform.position, transform.position);
             PlaySound(m_DeathSound2);
             m_Animator.SetTrigger("isDying2");
+            willCrawl = false;
 
             if (distanceToPlayer < 2f) // If Zombie is killed near the player he will not crawl
             {
@@ -333,7 +341,6 @@ public class Enemy : MonoBehaviour, IEventHandler
             }
             else
             {
-                willCrawl = false;
                 crawlCoroutine = StartCoroutine(WaitCrawl());
             }
         }
