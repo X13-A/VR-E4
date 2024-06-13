@@ -14,7 +14,7 @@ public class LevelManager : Singleton<LevelManager>, IEventHandler
     public int NumberOfLevel;
 
 
-    void Awake()
+    protected override void Awake()
     {
         base.Awake();
         m_CurrentLevel = null;
