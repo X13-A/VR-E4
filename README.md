@@ -9,13 +9,13 @@ Le cauchemar a commencé, et il n'y a pas de retour possible.**
 
 Utiliser les armes à votre disposition pour repousser les créatures terrifiantes qui vous attaquent. **La nuit sera longue, alors économisez bien vos munitions**.
 
-![aiming.gif](./Media/aiming.gif)
+![](./Media/aiming.gif)
 
 # Ne vous laissez pas surprendre
 
 Dans cette forêt marchent les créatures les plus horribles et imprévisibles. **N’espérez pas les connaitre, ou vous risquez d’être déçus.**
 
-![endgame.gif](./Media/endgame.gif)
+![](./Media/endgame.gif)
 
 # Vivez cette expérience en Réalité Virtuelle
 
