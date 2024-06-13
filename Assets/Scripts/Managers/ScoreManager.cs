@@ -42,6 +42,11 @@ public class ScoreManager : MonoBehaviour, IEventHandler
 
     void UpdateScoresText(UpdateScoresTextEvent e)
     {
+        if (scoresText == null)
+        {
+            Debug.LogWarning("scoresText is null");
+            return;
+        }
         string text = "";
         for (int i = 0; i< LevelManager.Instance.NumberOfLevel; i++)
         {
