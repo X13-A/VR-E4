@@ -245,7 +245,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   munitions: {fileID: 129815565}
-  waves: {fileID: 0}
 --- !u!114 &118788264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,7 +781,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   munitions: {fileID: 1025526982}
-  waves: {fileID: 0}
 --- !u!114 &344401274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -974,7 +972,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   munitions: {fileID: 1034086230}
-  waves: {fileID: 0}
 --- !u!114 &432615623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1915,6 +1912,10 @@ PrefabInstance:
     - target: {fileID: 1186288209704489091, guid: aa7eccb322016594bbd56157e498e2a1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5035663369168010254, guid: aa7eccb322016594bbd56157e498e2a1, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 5549539757380253410, guid: aa7eccb322016594bbd56157e498e2a1, type: 3}
       propertyPath: m_Name

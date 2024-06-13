@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.014789617, g: 0.011985545, b: 0.002022883, a: 1}
+  m_IndirectSpecularColor: {r: 0.00034240226, g: 0.0002774881, b: 0.00004682659, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3603,7 +3603,7 @@ MonoBehaviour:
     nFastEnemy: 0
     screamingEnemy: 0
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
-    spawnRadius: 20
+    spawnRadius: 30
     spawnInterval: 0
     deltaspawnInterval: 0.5
     angleStep: 10
@@ -3614,7 +3614,7 @@ MonoBehaviour:
     nFastEnemy: 2
     screamingEnemy: 0
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
-    spawnRadius: 20
+    spawnRadius: 30
     spawnInterval: 4
     deltaspawnInterval: 0.5
     angleStep: 10
@@ -3625,7 +3625,7 @@ MonoBehaviour:
     nFastEnemy: 2
     screamingEnemy: 0
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
-    spawnRadius: 20
+    spawnRadius: 30
     spawnInterval: 3
     deltaspawnInterval: 1
     angleStep: 10
@@ -3636,7 +3636,7 @@ MonoBehaviour:
     nFastEnemy: 3
     screamingEnemy: 1
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
-    spawnRadius: 20
+    spawnRadius: 30
     spawnInterval: 2
     deltaspawnInterval: 1
     angleStep: 10
