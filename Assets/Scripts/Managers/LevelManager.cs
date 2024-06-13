@@ -48,6 +48,7 @@ public class LevelManager : Singleton<LevelManager>, IEventHandler
     {
         Debug.Log("Load Level " + m_IndexLevel);
         m_CurrentLevel = level;
+        m_IndexLevel = 0;
         EventManager.Instance.Raise(new LoadLevelEvent { level = m_CurrentLevel});
     }
 
