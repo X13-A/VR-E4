@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour, IEventHandler
 
     void PlayIntroduction(PlayIntroductionButtonClickedEvent e)
     {
-        StartCoroutine(LoadSceneThenFunction(3, Introduction));
+        StartCoroutine(LoadSceneThenFunction(2, Introduction));
     }
 
     void Replay(ReplayButtonClickedEvent e)
