@@ -269,7 +269,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         m_audiSource.volume = lastVolume;
         screamCoroutine = null;
         canTouch = true;
-        PlayGroanSound();
+        PlayGroanSound(m_Groans,3f,5f);
 
     }
 
@@ -297,7 +297,7 @@ public class Enemy : MonoBehaviour, IEventHandler
         canAttack = true;
         canTouch = true;
         standUpCoroutine = null;
-        PlayGroanSound();
+        PlayGroanSound(m_Groans, 3f, 5f);
     }
 
     private IEnumerator WaitCrawl()

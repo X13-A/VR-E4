@@ -101,7 +101,9 @@ public class PlayerManager : MonoBehaviour, IEventHandler
 
                 // Calculate current rotation and target rotation
                 Quaternion currentRotation = m_Camera.transform.rotation;
-                Quaternion targetRotation = Quaternion.LookRotation(enemyPosition  - m_Camera.transform.position);
+                Vector3 cameraPosition = new Vector3(m_Camera.transform.position.x,0f, m_Camera.transform.position.z);
+                m_Camera.transform.position = cameraPosition;
+                Quaternion targetRotation = Quaternion.LookRotation(enemyPosition  - cameraPosition);
 
                 // Calculate the rotation difference
                 Quaternion rotationDifference = targetRotation * Quaternion.Inverse(currentRotation);
