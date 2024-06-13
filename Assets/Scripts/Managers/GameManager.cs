@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour, IEventHandler
         EventManager.Instance.AddListener<PlayButtonClickedEvent>(Play);
         EventManager.Instance.AddListener<PlayIntroductionButtonClickedEvent>(PlayIntroduction);
         EventManager.Instance.AddListener<ReplayButtonClickedEvent>(Replay);
+        EventManager.Instance.AddListener<QuitButtonClickedEvent>(Quit);
         EventManager.Instance.AddListener<MenuButtonClickedEvent>(Menu);
         EventManager.Instance.AddListener<FinishAllLevelEvent>(Win);
         EventManager.Instance.AddListener<LoseEvent>(Lose);
@@ -37,8 +38,14 @@ public class GameManager : MonoBehaviour, IEventHandler
         EventManager.Instance.RemoveListener<PlayIntroductionButtonClickedEvent>(PlayIntroduction);
         EventManager.Instance.RemoveListener<ReplayButtonClickedEvent>(Replay);
         EventManager.Instance.RemoveListener<MenuButtonClickedEvent>(Menu);
+        EventManager.Instance.RemoveListener<QuitButtonClickedEvent>(Quit);
         EventManager.Instance.RemoveListener<FinishAllLevelEvent>(Win);
         EventManager.Instance.RemoveListener<LoseEvent>(Lose);
+    }
+
+    void Quit(QuitButtonClickedEvent e)
+    {
+        Application.Quit();
     }
 
     void SetState(GAMESTATE newState)

@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: VoxFly
+  companyName: E4FI
+  productName: TheScreamingForest
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -139,12 +139,8 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 0.1
-  preloadedAssets:
-  - {fileID: 2787151587784442642, guid: 0f3819ef91dddde498c8f058ee26df24, type: 2}
-  - {fileID: 11400000, guid: 283e68c43cb0e5243ae362961f3468c2, type: 2}
-  - {fileID: 11400000, guid: 8a537960c267ccf4aac15f2447537125, type: 2}
-  - {fileID: -1881669273086242617, guid: cfe586d0e3b905045a8ca4473a740c9d, type: 2}
+  bundleVersion: 1.0
+  preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1

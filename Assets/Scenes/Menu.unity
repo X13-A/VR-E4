@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.00034240226, g: 0.0002774881, b: 0.00004682659, a: 1}
+  m_IndirectSpecularColor: {r: 0.014789617, g: 0.011985545, b: 0.002022883, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3604,13 +3604,13 @@ MonoBehaviour:
     screamingEnemy: 0
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
     spawnRadius: 30
-    spawnInterval: 0
-    deltaspawnInterval: 0.5
-    angleStep: 10
+    spawnInterval: 5
+    deltaspawnInterval: 5.5
+    angleStep: 30
     readAngleActivate: 0
-    enemyLife: 2
+    enemyLife: 1
   - crawlPorcent: 0
-    nWalkingEnemy: 3
+    nWalkingEnemy: 5
     nFastEnemy: 2
     screamingEnemy: 0
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
@@ -3621,8 +3621,8 @@ MonoBehaviour:
     readAngleActivate: 0
     enemyLife: 2
   - crawlPorcent: 50
-    nWalkingEnemy: 6
-    nFastEnemy: 2
+    nWalkingEnemy: 8
+    nFastEnemy: 4
     screamingEnemy: 0
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
     spawnRadius: 30
@@ -3630,10 +3630,10 @@ MonoBehaviour:
     deltaspawnInterval: 1
     angleStep: 10
     readAngleActivate: 0
-    enemyLife: 2
+    enemyLife: 3
   - crawlPorcent: 50
     nWalkingEnemy: 10
-    nFastEnemy: 3
+    nFastEnemy: 4
     screamingEnemy: 1
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
     spawnRadius: 30
@@ -3641,9 +3641,8 @@ MonoBehaviour:
     deltaspawnInterval: 1
     angleStep: 10
     readAngleActivate: 0
-    enemyLife: 2
+    enemyLife: 5
   m_WaitTimeBetweenLevel: 11
-  NumberOfLevel: 0
 --- !u!1 &1898283472
 GameObject:
   m_ObjectHideFlags: 0

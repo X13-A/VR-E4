@@ -21,10 +21,12 @@ public class WeaponHolder : MonoBehaviour
 
     void Update()
     {
+        // Align rig with gun barrel
         Vector3 baseForward = Vector3.Normalize(secondHandTransform.position - mainHandTransform.position);
         weaponRig.position = mainHandTransform.position;
         weaponRig.forward = baseForward;
 
+        // Adjust according to the position of the grips
         Vector3 delta = Vector3.Normalize(farGrip.position - closeGrip.position);
         Vector3 adjustedForward = Vector3.Normalize(Vector3.Reflect(-delta, baseForward));
         weaponModel.forward = adjustedForward;

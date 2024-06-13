@@ -11,7 +11,7 @@ public class LevelManager : Singleton<LevelManager>, IEventHandler
     private int m_IndexLevel;
     public int IndexLevel { get { return m_IndexLevel; } }
     [SerializeField] float m_WaitTimeBetweenLevel;
-    public int NumberOfLevel;
+    public int NumberOfLevel { get; private set; }
 
 
     protected override void Awake()
@@ -48,12 +48,12 @@ public class LevelManager : Singleton<LevelManager>, IEventHandler
     {
         Debug.Log("Load Level " + m_IndexLevel);
         m_CurrentLevel = level;
-        m_IndexLevel = 0;
         EventManager.Instance.Raise(new LoadLevelEvent { level = m_CurrentLevel});
     }
 
     void InitializeLevel(StartBlinkingFinishedEvent e)
     {
+        m_IndexLevel = 0;
         if (m_Levels.Count > 0)
         {
             LoadLevel(m_Levels[0]);
