@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour, IEventHandler
     void Win()
     {
         SetState(GAMESTATE.victory);
-        EventManager.Instance.Raise(new UpdateScoreEvent());
+        EventManager.Instance.Raise(new UpdateScoreEvent { win = true});
     }
 
     void Win(FinishAllLevelEvent e)
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour, IEventHandler
     void Lose()
     {
         SetState(GAMESTATE.gameover);
-        EventManager.Instance.Raise(new UpdateScoreEvent());
+        EventManager.Instance.Raise(new UpdateScoreEvent { win = false }); ;
     }
 
     void Lose(LoseEvent e)

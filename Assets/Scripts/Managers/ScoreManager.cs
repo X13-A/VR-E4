@@ -33,10 +33,25 @@ public class ScoreManager : MonoBehaviour, IEventHandler
     void UpdateScores(UpdateScoreEvent e)
     {
         int index = LevelManager.Instance.IndexLevel;
-        string waveCountString = PlayerPrefs.GetString("Wave "+(index+1), "0");
+        string waveCountString;
+        if (e.win)
+        {
+            waveCountString = PlayerPrefs.GetString("Win", "0");
+        }
+        else
+        {
+            waveCountString = PlayerPrefs.GetString("Wave " + (index + 1), "0");
+        }
         int waveCount = int.Parse(waveCountString);
         waveCount += 1;
-        PlayerPrefs.SetString("Wave " + (index+1), waveCount.ToString());
+        if (e.win)
+        {
+            PlayerPrefs.SetString("Win", waveCount.ToString());
+        }
+        else
+        {
+            PlayerPrefs.SetString("Wave " + (index + 1), waveCount.ToString());
+        }
         PlayerPrefs.Save();
     }
 
@@ -52,6 +67,7 @@ public class ScoreManager : MonoBehaviour, IEventHandler
         {
             text += "WAVE " + (i + 1) + " : " + PlayerPrefs.GetString("Wave " + (i + 1), "0")+"\n";
         }
+        text += "WIN : " + PlayerPrefs.GetString("Win", "0") + "\n";
         scoresText.text = text;
     }
 }
