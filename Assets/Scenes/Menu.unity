@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.000075043696, g: 0.000060816245, b: 0.00001026505, a: 1}
+  m_IndirectSpecularColor: {r: 0.014789617, g: 0.011985545, b: 0.002022883, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3599,12 +3599,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Levels:
   - crawlPorcent: 0
-    nWalkingEnemy: 3
-    nFastEnemy: 0
+    nWalkingEnemy: 30
+    nFastEnemy: 1
     screamingEnemy: 0
     enemy: {fileID: 6479545227246133146, guid: 0f675014fd986214992e0ded669e6143, type: 3}
     spawnRadius: 20
-    spawnInterval: 5
+    spawnInterval: 0
     deltaspawnInterval: 0.5
     angleStep: 10
     readAngleActivate: 0
