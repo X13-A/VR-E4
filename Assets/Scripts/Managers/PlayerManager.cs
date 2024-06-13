@@ -102,14 +102,17 @@ public class PlayerManager : MonoBehaviour, IEventHandler
                 // Calculate current rotation and target rotation
                 Quaternion currentRotation = m_Camera.transform.rotation;
                 Vector3 cameraPosition = new Vector3(m_Camera.transform.position.x,0f, m_Camera.transform.position.z);
-                m_Camera.transform.position = cameraPosition;
+                m_CameraParent.position -= cameraPosition;
                 Quaternion targetRotation = Quaternion.LookRotation(enemyPosition  - cameraPosition);
 
                 // Calculate the rotation difference
                 Quaternion rotationDifference = targetRotation * Quaternion.Inverse(currentRotation);
 
                 // Apply the rotation difference to the parent
-                m_CameraParent.rotation = rotationDifference * m_CameraParent.rotation;
+                Quaternion finalRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
+
+                m_CameraParent.rotation = finalRotation;
+
             }
         }
         m_BlinkEffect.time = m_StartBlinkCurve.Evaluate(tMax);
